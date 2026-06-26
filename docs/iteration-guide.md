@@ -38,9 +38,11 @@ Date:
 Did AI clarify the requirement before implementation?
 Did AI keep one requirement per branch?
 Did AI create or request the correct AI branch?
+Did AI choose the correct branch mode: default AI branch mode or direct requirement branch compatibility mode?
 Did AI write a Chinese spec before implementation?
 Did AI avoid unrelated refactors, formatting, and dependency changes?
 Did AI run or explain verification?
+In default mode, did AI squash merge back to the developer branch?
 Did final delivery include risks and follow-up notes?
 If API changed, did final delivery include Apifox sync summary?
 
@@ -60,6 +62,7 @@ Change an existing skill when the behavior belongs to an existing phase:
 - Chinese spec format or confirmation gate: `ai-spec-writing`
 - Edit boundaries and unrelated changes: `ai-implementation-scope`
 - Commit message rules: `ai-commit-rules`
+- Squash merge-back to the developer branch: `ai-merge-back`
 - Final delivery and verification summary: `ai-handoff`
 - API contract summary: `ai-apifox-sync`
 - Routing between phases: `ai-dev-protocol`
@@ -95,6 +98,7 @@ Before publishing a new version:
 [ ] Codex adapter mentions the current skill names.
 [ ] Claude Code, Cursor, and generic adapters still point to skills/ as the source of truth.
 [ ] Templates still live under the skill that uses them.
+[ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
 [ ] CHANGELOG.md has an entry for the release.
 [ ] A realistic trial prompt has been run or manually simulated.
 ```
@@ -121,6 +125,18 @@ Expected: AI should separate the API fix from unrelated formatting and require A
 
 Expected: AI should ask what requirement is being changed, check branch workflow, and use Chinese `feat:` or `fix:` commit rules on `ai/...` branches.
 
+```text
+我在 developer/zhangsan 分支，帮我并行启动一个订单状态筛选需求。
+```
+
+Expected: AI should create or suggest an `ai/...` branch from the developer branch, complete the requirement there, and use `ai-merge-back` to squash merge back after verification.
+
+```text
+我已经在 feature/order-filter 分支，不想再拉 AI 分支，直接做。
+```
+
+Expected: AI should use direct requirement branch compatibility mode and skip merge-back.
+
 ## Release Notes Style
 
 Keep changelog entries short and user-facing:
@@ -129,4 +145,3 @@ Keep changelog entries short and user-facing:
 - Mention skill names when behavior changes.
 - Mention adapter changes only when users need to update project integration files.
 - Do not include internal drafting notes or exploratory discussion.
-

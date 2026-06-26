@@ -8,6 +8,20 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.2.0] - 2026-06-26
+
+### Added
+
+- Added `ai-merge-back` skill for squash merging completed AI branches back to the developer branch in the default workflow.
+- Added branch-mode language for default AI branch mode and direct requirement branch compatibility mode.
+
+### Changed
+
+- Reframed the protocol around small-team developer branches as aggregation branches for multiple parallel AI requirements.
+- Updated `ai-dev-protocol`, `ai-branch-workflow`, `ai-commit-rules`, and `ai-handoff` to include merge-back and developer-led review/联调.
+- Updated README and adapters to explain the default personal developer branch workflow and compatibility mode for existing requirement branches.
+- Bumped plugin version from `0.1.1` to `0.2.0`.
+
 ## [0.1.1] - 2026-06-26
 
 ### Added
@@ -35,4 +49,3 @@ All notable changes to AI Dev Protocol are documented here.
   - `ai-apifox-sync`
 - Added requirement spec, handoff summary, and Apifox sync summary templates.
 - Added Codex, Claude Code, Cursor, and generic AI tool adapters.
-
