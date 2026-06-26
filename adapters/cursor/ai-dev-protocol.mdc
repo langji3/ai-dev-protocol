@@ -1,0 +1,36 @@
+---
+description: AI Dev Protocol for team AI-assisted development workflow
+globs:
+  - "**/*"
+alwaysApply: false
+---
+
+# AI Dev Protocol
+
+当 Cursor AI 处理需求实现、代码修改、bug fix、提交或交付时，遵守 AI Dev Protocol。
+
+本协议在 Codex 中拆分为多个 workflow skills；Cursor 使用本 rule 读取同一套核心规则。
+
+核心规则：
+
+- 一个 AI 分支只处理一个明确 requirement。
+- 动手前先确认需求范围；范围不清时必须提问。
+- 实现前写中文 spec，包含目标、范围、非目标、影响区域和验证方式。
+- AI 分支从开发者个人分支创建，命名为 `ai/{yyyyMMdd}-{developer}-{short-desc}`。
+- spec、交付摘要、Apifox 摘要使用中文；代码标识符、API 路径、表名、配置键保持英文。
+- 不混入无关重构、格式化、依赖升级或 workflow 产物。
+- `ai/...` 分支 commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
+- 最终交付包含验证结果；API 变更包含 Apifox sync summary。
+
+阶段对应关系：
+
+- 需求澄清：`ai-requirement-intake`
+- 分支规则：`ai-branch-workflow`
+- 中文 spec：`ai-spec-writing`
+- 范围控制：`ai-implementation-scope`
+- 提交规则：`ai-commit-rules`
+- 最终交付：`ai-handoff`
+- API 同步：`ai-apifox-sync`
+
+完整规则以仓库 `skills/` 下各 `SKILL.md` 为准。
+

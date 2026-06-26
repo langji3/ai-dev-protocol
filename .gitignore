@@ -1,0 +1,36 @@
+# Local agent/Codex state
+.agents/
+
+# IDE/editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+
+# OS metadata
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Logs and temporary files
+*.log
+*.tmp
+*.temp
+.cache/
+tmp/
+temp/
+
+# Dependency/build output that should not be part of this docs/plugin repo
+node_modules/
+dist/
+build/
+out/
+
+# Python caches from local validation scripts
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+
