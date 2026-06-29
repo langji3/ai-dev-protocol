@@ -8,6 +8,21 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.2.1] - 2026-06-29
+
+### Added
+
+- Added `.claude-plugin/plugin.json` so the repository is a source plugin for Claude Code as well as Codex.
+
+### Changed
+
+- Kept this repository focused as the pure plugin source project for Codex, Claude Code, Cursor adapters, and generic AI tools.
+- Bumped plugin version from `0.2.0` to `0.2.1`.
+
+### Removed
+
+- Removed marketplace template and build script from this plugin source repository. Team marketplace distribution should live in a separate repository.
+
 ## [0.2.0] - 2026-06-26
 
 ### Added

@@ -11,6 +11,7 @@ AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约，用
 本仓库采用类似 Superpowers 的组织方式：
 
 - `.codex-plugin/plugin.json` 声明 Codex plugin。
+- `.claude-plugin/plugin.json` 声明 Claude Code plugin 元数据。
 - `skills/` 下每个子目录都是一个独立 skill。
 - `ai-dev-protocol` 是总入口和路由 skill。
 - 其他 `ai-*` skills 分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 同步。
@@ -90,6 +91,8 @@ ai-dev-protocol/
     iteration-guide.md
   .codex-plugin/
     plugin.json
+  .claude-plugin/
+    plugin.json
 
   skills/
     ai-dev-protocol/
@@ -148,7 +151,7 @@ ai-dev-protocol/
 
 ### Codex Plugin
 
-本仓库已经包含 `.codex-plugin/plugin.json`，可以作为 Codex plugin 分发。团队可通过个人或团队 marketplace、本地 plugin 目录、或 Codex 支持的 plugin 安装流程接入。
+本仓库已经包含 `.codex-plugin/plugin.json`，可以作为 Codex plugin 源码仓库分发。
 
 Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 
@@ -162,35 +165,13 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 
 详细说明见 `adapters/codex/install.md`。
 
-### Codex Marketplace
-
-如果希望用户在 Codex App 中通过“添加插件市场”安装，而不是手动创建本地 marketplace，可以生成单独的 marketplace 仓库：
-
-```powershell
-.\scripts\build-marketplace.ps1
-```
-
-脚本会生成：
-
-```text
-dist/ai-dev-protocol-marketplace
-```
-
-将该目录推送到单独 GitHub 仓库，例如：
-
-```text
-https://github.com/langji3/ai-dev-protocol-marketplace
-```
-
-用户在 Codex App 中添加这个 marketplace 仓库后，就可以安装 `AI Dev Protocol` 插件。
-
 ### Codex Skills 直装
 
 如果暂时不使用 plugin，也可以把 `skills/` 下的每个 skill 子目录分别安装到 `~/.codex/skills/`。这种方式同样会得到多个 skills，但没有 plugin 卡片和 marketplace 分发能力。
 
 ### Claude Code
 
-将 `adapters/claude-code/CLAUDE.snippet.md` 合并到目标项目的 `CLAUDE.md`。
+本仓库包含 `.claude-plugin/plugin.json`，可作为 Claude Code plugin 源码仓库使用。若项目暂不走 Claude plugin 安装流程，也可以将 `adapters/claude-code/CLAUDE.snippet.md` 合并到目标项目的 `CLAUDE.md`。
 
 ### Cursor
 
@@ -216,7 +197,7 @@ https://github.com/langji3/ai-dev-protocol-marketplace
 
 ### 第四阶段：团队推广
 
-把仓库接入团队项目，形成复制/安装说明，约定版本更新方式，并视需要接入团队 plugin marketplace。
+把仓库接入团队项目，形成复制/安装说明，约定版本更新方式，并视需要在单独仓库维护团队 plugin marketplace。
 
 ## 可持续迭代
 

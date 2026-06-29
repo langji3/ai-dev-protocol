@@ -1,5 +1,15 @@
 # Claude Code 安装说明
 
+## Plugin 元数据
+
+本仓库包含 Claude Code plugin manifest：
+
+```text
+.claude-plugin/plugin.json
+```
+
+它用于声明 `ai-dev-protocol` 作为 Claude Code 可识别的插件源码。实际团队安装方式可由团队的 Claude Code 插件市场或项目接入规范决定。
+
 ## 接入项目
 
 将 `adapters/claude-code/CLAUDE.snippet.md` 合并到目标项目的 `CLAUDE.md`。

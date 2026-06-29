@@ -99,7 +99,7 @@ Before publishing a new version:
 [ ] Claude Code, Cursor, and generic adapters still point to skills/ as the source of truth.
 [ ] Templates still live under the skill that uses them.
 [ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
-[ ] If marketplace distribution is used, `scripts/build-marketplace.ps1` has been run and the generated marketplace repository has been published.
+[ ] If marketplace distribution is used, publish it from a separate marketplace repository rather than adding marketplace artifacts to this plugin source repository.
 [ ] CHANGELOG.md has an entry for the release.
 [ ] A realistic trial prompt has been run or manually simulated.
 ```
