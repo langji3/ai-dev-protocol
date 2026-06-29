@@ -14,6 +14,7 @@ All notable changes to AI Dev Protocol are documented here.
 
 - Added `ai-merge-back` skill for squash merging completed AI branches back to the developer branch in the default workflow.
 - Added branch-mode language for default AI branch mode and direct requirement branch compatibility mode.
+- Added marketplace template and build script for publishing a separate Codex plugin marketplace repository.
 
 ### Changed
 

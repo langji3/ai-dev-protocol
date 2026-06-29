@@ -34,6 +34,34 @@ ai-apifox-sync
 
 在 plugin 命名空间下，它们可能显示为 `ai-dev-protocol:<skill-name>`。
 
+## Marketplace 安装方式
+
+如果团队已经发布了 marketplace 仓库，例如：
+
+```text
+https://github.com/langji3/ai-dev-protocol-marketplace
+```
+
+在 Codex App 中：
+
+1. 打开插件页面。
+2. 点击“添加插件市场”。
+3. 输入或选择 marketplace 仓库。
+4. 在该市场中安装 `AI Dev Protocol`。
+5. 重启 Codex 或新开 thread 验证。
+
+维护者可以从当前插件仓库生成 marketplace 仓库内容：
+
+```powershell
+.\scripts\build-marketplace.ps1
+```
+
+生成结果位于：
+
+```text
+dist/ai-dev-protocol-marketplace
+```
+
 ## 团队接入
 
 将 `adapters/codex/AGENTS.snippet.md` 合并到目标项目的 `AGENTS.md`。
@@ -59,4 +87,3 @@ ai-apifox-sync
 - 使用 `ai-merge-back` 在默认模式下 squash merge 回开发者个人分支。
 - 使用 `ai-handoff` 在交付时包含验证结果、merge-back 状态和开发者接管说明。
 - API 变更时使用 `ai-apifox-sync` 输出 Apifox sync summary。
-

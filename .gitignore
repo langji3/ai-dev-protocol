@@ -1,5 +1,8 @@
 # Local agent/Codex state
 .agents/
+!marketplace/.agents/
+!marketplace/.agents/plugins/
+!marketplace/.agents/plugins/marketplace.json
 
 # IDE/editor settings
 .idea/
@@ -33,4 +36,3 @@ __pycache__/
 .pytest_cache/
 .mypy_cache/
 .ruff_cache/
-
