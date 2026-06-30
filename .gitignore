@@ -1,5 +1,6 @@
 # Local agent/Codex state
 .agents/
+.ai-dev-protocol/
 
 # IDE/editor settings
 .idea/

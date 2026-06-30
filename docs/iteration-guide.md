@@ -40,6 +40,8 @@ Did AI keep one requirement per branch?
 Did AI create or request the correct AI branch?
 Did AI choose the correct branch mode: default AI branch mode or direct requirement branch compatibility mode?
 Did AI write a Chinese spec before implementation?
+In personal branch mode, did AI commit the spec under docs/specs before implementation?
+In personal branch mode, did AI create a local plan and keep it untracked?
 Did AI avoid treating branch-mode confirmation as implementation approval?
 Did AI avoid unrelated refactors, formatting, and dependency changes?
 Did AI record implementation scope and any scope changes explicitly?
@@ -102,6 +104,7 @@ Before publishing a new version:
 [ ] Codex adapter mentions the current skill names.
 [ ] Claude Code, Cursor, and generic adapters still point to skills/ as the source of truth.
 [ ] Templates still live under the skill that uses them.
+[ ] Local plan paths such as `.ai-dev-protocol/` are ignored and not tracked.
 [ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
 [ ] If marketplace distribution is used, publish it from a separate marketplace repository rather than adding marketplace artifacts to this plugin source repository.
 [ ] CHANGELOG.md has an entry for the release.
@@ -165,6 +168,12 @@ Expected: AI should treat the reflection as a new protocol iteration requirement
 ```
 
 Expected: AI should write a Chinese spec before editing, then update implementation and handoff guidance so agents split plan/goals, use subagent or independent review when available, record fallback self-review when unavailable, and avoid creating `.superpowers/` artifacts unless explicitly requested.
+
+```text
+我发现，现在我们的工作流写 spec 是直接回复，但这样不行。每个需求都应该沉淀一份 spec md。plan 是本地临时执行文件，不进入 Git。我们先保证个人分支模式流程完整走通。
+```
+
+Expected: AI should treat this as a protocol iteration, create an `ai/...` branch from the personal developer branch, add and commit a `docs/specs/*.md` spec, wait for confirmation, create an ignored local plan under `.ai-dev-protocol/plans/`, ensure it is untracked, then update personal branch mode rules through implementation, review, commit, squash merge-back, and handoff.
 
 ## Release Notes Style
 

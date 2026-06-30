@@ -15,6 +15,14 @@
 - 已 squash merge 回开发者分支 / 无需 merge-back / 未执行：
 - 说明：
 
+## Spec / Plan 状态
+
+- Spec 文档路径：
+- Spec 提交状态：
+- 本地 plan 执行状态：
+- 本地 plan Git 状态：未追踪 / 已忽略 / 不适用
+- 实现提交状态：
+
 ## 实现范围记录
 
 - 改了什么：

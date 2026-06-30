@@ -29,7 +29,7 @@ After those steps, continue to the next gate in the flow.
 ## Branch Modes
 
 - Requirement branch: work directly on current branch; skip `ai/...` and merge-back.
-- Personal branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`; squash merge back after verification.
+- Personal branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`, commit a requirement spec under `docs/specs/`, create an ignored local plan, implement, verify, and squash merge back.
 - Existing `ai/...`: continue work; identify source developer branch.
 - Trunk/environment branch: stop unless user confirms exception.
 - Ambiguous branch: ask before editing.
@@ -43,10 +43,13 @@ Before implementation:
 - Branch mode is known.
 - Chinese spec is confirmed.
 - The user has confirmed the Chinese spec in the current workflow after branch mode is known.
+- Personal branch mode has a committed `docs/specs/{yyyyMMdd}-{short-desc}.md` requirement spec on the `ai/...` branch.
+- Personal branch mode has an ignored local plan, preferably `.ai-dev-protocol/plans/{yyyyMMdd}-{short-desc}-plan.md`; the plan must not be tracked by Git.
 - If the user only confirmed "personal branch" or "requirement branch", that confirms branch mode only; next step is `ai-spec-writing`, not implementation.
 
 Before delivery:
 
+- Personal branch mode has spec document path, spec commit status, local plan execution status, implementation commit status, and merge-back status recorded.
 - Verification ran, or blocker is stated.
 - Implementation plan/goals were tracked, or a reason for a lightweight path is stated.
 - Subagent or independent review ran when the task was complex or involved code changes and the environment supported it; otherwise the fallback self-review is stated.
@@ -59,6 +62,6 @@ Before delivery:
 
 - Specs, handoff, Apifox summaries, and AI commit messages use Chinese.
 - Code identifiers, API paths, table names, config keys, commands, and file paths stay English.
-- No unrelated refactor, formatting sweep, dependency upgrade, standalone plan file, `.superpowers/`, or workflow artifact unless explicitly requested.
-- Implementation may borrow the Superpowers-style working method: split goals, progress step by step, and use independent review. Do not create `.superpowers/` files or separate plan artifacts unless explicitly requested.
+- No unrelated refactor, formatting sweep, dependency upgrade, tracked plan file, `.superpowers/`, or external workflow artifact unless explicitly requested.
+- Implementation may borrow the Superpowers-style working method: split goals, progress step by step, and use independent review. In personal branch mode, create an ignored local plan file for execution; do not create `.superpowers/` files.
 - Developer owns final review, self-test, integration testing, PR, merge, and code quality.

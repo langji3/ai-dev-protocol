@@ -21,7 +21,11 @@ Cursor 在代码修改、需求实现、bug fix、提交或交付任务中应读
 - 先确认需求范围。
 - 根据当前分支命名风格判断需求分支模式或个人分支模式。
 - 写中文 spec。
+- 个人分支模式下创建并提交 `docs/specs/*.md`。
+- 个人分支模式下创建 `.ai-dev-protocol/plans/*.md` 本地 plan，并确认它被忽略且未被 Git 追踪。
 - 控制实现范围。
+- 个人分支模式下提交实现改动并说明实现提交状态。
 - 个人分支模式下说明 squash merge-back 状态；需求分支模式下跳过 merge-back。
 - 最终交付验证结果和开发者接管事项。
+- 最终交付 spec 文档状态、本地 plan 状态和实现提交状态。
 - API 变更时输出 Apifox sync summary。
