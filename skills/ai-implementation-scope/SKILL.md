@@ -7,6 +7,18 @@ description: Control implementation scope for AI Dev Protocol work. Use while ed
 
 Use during code changes after the Chinese spec is confirmed.
 
+## Preflight
+
+Before editing files, verify:
+
+- One requirement is identified.
+- Branch mode is known.
+- A Chinese spec exists in the current workflow.
+- The user confirmed that spec after branch mode was known.
+- The requested edit still matches the confirmed spec.
+
+If any item is missing, stop and return to `ai-requirement-intake`, `ai-branch-workflow`, or `ai-spec-writing` as appropriate.
+
 ## Do
 
 - Change only files directly related to the confirmed requirement.
