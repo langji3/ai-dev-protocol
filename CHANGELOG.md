@@ -8,6 +8,15 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.2.9] - 2026-06-30
+
+### Changed
+
+- Removed the current requirement-branch workflow from active rules.
+- Made the small-team developer branch workflow the single supported development flow.
+- Updated skills, adapters, and install checks to require `ai/...` branches and merge-back.
+- Kept old requirement-branch mentions only in historical changelog/spec context.
+
 ## [0.2.8] - 2026-06-30
 
 ### Fixed

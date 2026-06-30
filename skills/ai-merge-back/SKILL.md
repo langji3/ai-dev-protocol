@@ -1,11 +1,11 @@
 ---
 name: ai-merge-back
-description: Squash merge completed AI work back to the developer branch in AI Dev Protocol personal branch mode. Use after implementation and verification on an ai/... branch when work should return to the developer aggregation branch. Do not use for requirement branch mode.
+description: Squash merge completed AI work back to the developer branch in AI Dev Protocol. Use after implementation and verification on an ai/... branch when work should return to the developer aggregation branch.
 ---
 
 # AI Merge Back
 
-Use only in personal branch mode after verified work is complete on an `ai/...` branch.
+Use after verified work is complete on an `ai/...` branch.
 
 ## Preconditions
 
@@ -13,11 +13,11 @@ Use only in personal branch mode after verified work is complete on an `ai/...` 
 - Source developer branch is known.
 - Implementation is complete.
 - Implementation changes are committed on the AI branch.
-- Personal branch mode spec document is committed under `docs/specs/`.
+- Spec document is committed under `docs/specs/`.
 - Local plan was used and is not tracked by Git.
 - Verification ran, or blocker is recorded.
 - Working tree is clean except intended committed changes.
-- User has not disabled merge-back.
+- Merge-back is the standard required return path for completed AI work.
 
 ## Do
 
@@ -33,7 +33,7 @@ Use only in personal branch mode after verified work is complete on an `ai/...` 
 
 ## Stop
 
-Stop on unknown target branch, wrong current branch, dirty tree, conflicts, failed verification without accepted risk, or requirement branch mode.
+Stop on unknown target branch, wrong current branch, dirty tree, conflicts, failed verification without accepted risk, or explicit user cancellation of the task. Record the blocker in handoff; do not silently skip merge-back for completed work.
 
 ## Output
 

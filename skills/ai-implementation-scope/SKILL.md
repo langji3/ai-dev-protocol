@@ -15,8 +15,8 @@ Before editing files, verify:
 - Branch mode is known.
 - A Chinese spec exists in the current workflow.
 - The user confirmed that spec after branch mode was known.
-- In personal branch mode, the confirmed spec is committed under `docs/specs/` on the `ai/...` branch.
-- In personal branch mode, a local plan exists and is ignored by Git before implementation starts.
+- The confirmed spec is committed under `docs/specs/` on the `ai/...` branch.
+- A local plan exists and is ignored by Git before implementation starts.
 - The requested edit still matches the confirmed spec.
 - The affected files or areas are covered by the confirmed spec, or the scope change has been stated and reconfirmed.
 
@@ -26,7 +26,7 @@ Before editing, briefly record what will change and why it is inside scope.
 
 ## Implementation Plan
 
-- Before editing in personal branch mode, create a local plan file with concrete goals or steps that can be completed and verified.
+- Before editing, create a local plan file with concrete goals or steps that can be completed and verified.
 - Prefer `.ai-dev-protocol/plans/{yyyyMMdd}-{short-desc}-plan.md`; this path must be ignored by Git.
 - Confirm the local plan is not tracked by Git before editing implementation files.
 - For substantial tasks, include goals for implementation, verification, independent review, and handoff.
