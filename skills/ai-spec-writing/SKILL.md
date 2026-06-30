@@ -15,6 +15,8 @@ Use after requirement intake and branch-mode selection, before implementation.
 - Wait for user confirmation before implementation.
 - Write the spec after branch mode is known, including after the user confirms an ambiguous branch as personal or requirement branch.
 - Treat branch-mode confirmation as input to the spec, not as spec confirmation.
+- List affected areas explicitly. Include skills, adapters, docs, templates, manifests, API contracts, database migrations, tests, and configuration when they may need synchronized changes.
+- If implementation discovers a target file or area from the spec is missing, irrelevant, or newly required, state the scope change and update or reconfirm the spec before editing outside the confirmed scope.
 
 ## Include
 
@@ -26,6 +28,7 @@ Use after requirement intake and branch-mode selection, before implementation.
 - 实现思路
 - 验证方式
 - 风险与注意事项
+- 范围变化处理方式
 
 ## Stop
 

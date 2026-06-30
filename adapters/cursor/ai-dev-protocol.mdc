@@ -32,7 +32,7 @@ alwaysApply: false
 - 不混入无关重构、格式化、依赖升级或 workflow 产物。
 - commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 - 个人分支模式下，AI 验证后 squash merge 回开发者个人分支；需求分支模式跳过 merge-back。
-- 最终交付包含验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
+- 最终交付包含实现范围记录、范围变化说明、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
 
 阶段对应关系：
 

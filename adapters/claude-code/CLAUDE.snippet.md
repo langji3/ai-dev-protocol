@@ -16,7 +16,7 @@
 - 实现：只修改当前需求相关内容，不混入无关重构、格式化、依赖升级或 workflow 产物。
 - 提交：commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 - Merge-back：个人分支模式下 squash merge 回开发者个人分支；需求分支模式跳过。
-- 交付：最终交付包含验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
+- 交付：最终交付包含实现范围记录、范围变化说明、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
 
 代码标识符、API 路径、表名、配置键保持英文。
 

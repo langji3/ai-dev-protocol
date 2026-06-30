@@ -30,7 +30,7 @@ Codex 中本协议拆分为多个 skills：
 - `ai-implementation-scope`：范围控制，禁止无关改动。
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：个人分支模式下 squash merge 回开发者个人分支。
-- `ai-handoff`：最终交付、验证说明和开发者接管说明。
+- `ai-handoff`：最终交付、实现范围记录、范围变化说明、验证说明和开发者接管说明。
 - `ai-apifox-sync`：API 变更后的 Apifox sync summary。
 
 其他 AI 工具可以按同样阶段执行。
@@ -63,7 +63,7 @@ Codex 中本协议拆分为多个 skills：
 6. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
 7. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
 8. Merge-back：个人分支模式下 squash merge 回开发者个人分支；需求分支模式跳过。
-9. 最终交付：输出变更摘要、分支模式、merge-back 状态、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary。
+9. 最终交付：输出变更摘要、分支模式、merge-back 状态、实现范围记录、范围变化说明、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary。
 
 自然语言的模块设计讨论如果可能进入代码实现，也从需求进入开始执行。用户回复“个人分支”或“需求分支”只确认第 2 步，下一步仍是中文 spec，不得直接写代码。
 

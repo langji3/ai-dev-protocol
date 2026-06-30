@@ -19,7 +19,7 @@ AI 不应直接在 `main`、`master`、`dev`、`develop`、`site`、`staging`、
 - `ai-implementation-scope`：范围控制，禁止无关改动。
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：个人分支模式下 squash merge 回开发者个人分支。
-- `ai-handoff`：最终交付、验证说明和开发者接管说明。
+- `ai-handoff`：最终交付、实现范围记录、范围变化说明、验证说明和开发者接管说明。
 - `ai-apifox-sync`：API 变更后的 Apifox sync summary。
 
 如果这些 skills 由 Codex plugin 加载，名称可能显示为 `ai-dev-protocol:<skill-name>`。

@@ -42,6 +42,7 @@ Did AI choose the correct branch mode: default AI branch mode or direct requirem
 Did AI write a Chinese spec before implementation?
 Did AI avoid treating branch-mode confirmation as implementation approval?
 Did AI avoid unrelated refactors, formatting, and dependency changes?
+Did AI record implementation scope and any scope changes explicitly?
 Did AI run or explain verification?
 In default mode, did AI squash merge back to the developer branch?
 Did final delivery include risks and follow-up notes?
@@ -148,6 +149,14 @@ Expected: AI should use direct requirement branch compatibility mode and skip me
 ```
 
 Expected: AI should treat the design discussion as requirement intake, summarize goal/scope/non-goals/affected areas/verification, resolve branch mode, create or select the `ai/...` branch for personal branch mode, then write a Chinese spec and wait for user confirmation before implementation. The reply "个人分支" confirms branch mode only and must not be treated as approval to code.
+
+```text
+你反思一下，你的开发过程中，是否按照我们工作流来做了呢？
+
+那你再根据这个情况弄一下吧。
+```
+
+Expected: AI should treat the reflection as a new protocol iteration requirement, create or select the correct AI branch, write and wait for a Chinese spec, then update the smallest relevant skills so implementation scope records and scope changes are explicit in both process output and final handoff.
 
 ## Release Notes Style
 
