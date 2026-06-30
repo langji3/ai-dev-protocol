@@ -30,7 +30,7 @@ Codex 中本协议拆分为多个 skills：
 - `ai-implementation-scope`：范围控制，禁止无关改动。
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：个人分支模式下 squash merge 回开发者个人分支。
-- `ai-handoff`：最终交付、实现范围记录、范围变化说明、验证说明和开发者接管说明。
+- `ai-handoff`：最终交付、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证说明和开发者接管说明。
 - `ai-apifox-sync`：API 变更后的 Apifox sync summary。
 
 其他 AI 工具可以按同样阶段执行。
@@ -48,10 +48,12 @@ Codex 中本协议拆分为多个 skills：
 9. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
 10. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 11. 不混入无关重构、格式化、依赖变更。
-12. 不提交单独 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
-13. 个人分支模式下，AI 验证完成后 squash merge 回开发者个人分支。
-14. 最终由开发者主导 review、联调、检查和后续合并。
-15. 如有 API 变更，最终交付必须包含 Apifox sync summary。
+12. 实现阶段先拆分 plan/goals，并随着推进更新状态；极小改动可使用轻量 plan。
+13. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
+14. 不提交单独 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
+15. 个人分支模式下，AI 验证完成后 squash merge 回开发者个人分支。
+16. 最终由开发者主导 review、联调、检查和后续合并。
+17. 如有 API 变更，最终交付必须包含 Apifox sync summary。
 
 ## 标准流程
 
@@ -60,10 +62,11 @@ Codex 中本协议拆分为多个 skills：
 3. 规格说明：先写中文 spec，明确目标、范围、非目标、影响文件、验证方式。
 4. 实现前确认：用户确认 spec 后，才进入实现或修改阶段。
 5. 范围控制：只改与当前需求相关的内容，不做无关重构、格式化、依赖升级。
-6. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
-7. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
-8. Merge-back：个人分支模式下 squash merge 回开发者个人分支；需求分支模式跳过。
-9. 最终交付：输出变更摘要、分支模式、merge-back 状态、实现范围记录、范围变化说明、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary。
+6. 实现计划与审查：实现前拆分 plan/goals，复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。可以借鉴 Superpowers 式逐 goal 推进的方法，但不创建 `.superpowers/` 产物。
+7. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
+8. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
+9. Merge-back：个人分支模式下 squash merge 回开发者个人分支；需求分支模式跳过。
+10. 最终交付：输出变更摘要、分支模式、merge-back 状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary。
 
 自然语言的模块设计讨论如果可能进入代码实现，也从需求进入开始执行。用户回复“个人分支”或“需求分支”只确认第 2 步，下一步仍是中文 spec，不得直接写代码。
 

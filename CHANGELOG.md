@@ -8,6 +8,15 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.2.7] - 2026-06-30
+
+### Fixed
+
+- Added implementation-stage plan/goals tracking guidance.
+- Required subagent or independent review for code changes when available, with fallback self-review recorded when unavailable.
+- Updated handoff guidance and template to include plan/goals completion and review status.
+- Documented the Superpowers-style working method without creating `.superpowers/` artifacts.
+
 ## [0.2.6] - 2026-06-30
 
 ### Fixed

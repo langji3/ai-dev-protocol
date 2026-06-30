@@ -48,6 +48,8 @@ Before implementation:
 Before delivery:
 
 - Verification ran, or blocker is stated.
+- Implementation plan/goals were tracked, or a reason for a lightweight path is stated.
+- Subagent or independent review ran when the task was complex or involved code changes and the environment supported it; otherwise the fallback self-review is stated.
 - Commits use Chinese `feat:` / `fix:` when created.
 - Personal branch mode has merge-back status.
 - Developer takeover is stated.
@@ -58,4 +60,5 @@ Before delivery:
 - Specs, handoff, Apifox summaries, and AI commit messages use Chinese.
 - Code identifiers, API paths, table names, config keys, commands, and file paths stay English.
 - No unrelated refactor, formatting sweep, dependency upgrade, standalone plan file, `.superpowers/`, or workflow artifact unless explicitly requested.
+- Implementation may borrow the Superpowers-style working method: split goals, progress step by step, and use independent review. Do not create `.superpowers/` files or separate plan artifacts unless explicitly requested.
 - Developer owns final review, self-test, integration testing, PR, merge, and code quality.

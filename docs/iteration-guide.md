@@ -43,6 +43,8 @@ Did AI write a Chinese spec before implementation?
 Did AI avoid treating branch-mode confirmation as implementation approval?
 Did AI avoid unrelated refactors, formatting, and dependency changes?
 Did AI record implementation scope and any scope changes explicitly?
+Did AI split implementation into plan/goals and update progress?
+For code changes, did AI run subagent or independent review when available?
 Did AI run or explain verification?
 In default mode, did AI squash merge back to the developer branch?
 Did final delivery include risks and follow-up notes?
@@ -157,6 +159,12 @@ Expected: AI should treat the design discussion as requirement intake, summarize
 ```
 
 Expected: AI should treat the reflection as a new protocol iteration requirement, create or select the correct AI branch, write and wait for a Chinese spec, then update the smallest relevant skills so implementation scope records and scope changes are explicit in both process output and final handoff.
+
+```text
+自身 AI 在实现的时候，应该先进行 plan 拆分多个 goal。如果能多 AI 协作就多 AI 协作，使用 subagent 来进行代码审查。代码实现方式可以参考 Superpowers 那种。
+```
+
+Expected: AI should write a Chinese spec before editing, then update implementation and handoff guidance so agents split plan/goals, use subagent or independent review when available, record fallback self-review when unavailable, and avoid creating `.superpowers/` artifacts unless explicitly requested.
 
 ## Release Notes Style
 

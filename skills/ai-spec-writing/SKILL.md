@@ -26,6 +26,7 @@ Use after requirement intake and branch-mode selection, before implementation.
 - 非目标
 - 影响区域
 - 实现思路
+- 实现计划与审查方式
 - 验证方式
 - 风险与注意事项
 - 范围变化处理方式

@@ -22,13 +22,31 @@ If any item is missing, stop and return to `ai-requirement-intake`, `ai-branch-w
 
 Before editing, briefly record what will change and why it is inside scope.
 
+## Implementation Plan
+
+- Before editing, split the work into a short plan with concrete goals or steps that can be completed and verified.
+- For substantial tasks, include goals for implementation, verification, independent review, and handoff.
+- Keep the plan in the conversation or tool state; do not create a standalone plan file.
+- Update goal status as work progresses instead of only summarizing at the end.
+- For tiny single-file edits, a lightweight plan is acceptable, but still state the immediate edit and verification path.
+- Use the Superpowers-style method as a working pattern: decompose goals, finish them one by one, and review independently. Do not create `.superpowers/` artifacts.
+
+## Subagent Collaboration
+
+- When the environment supports subagents and the task is complex enough to benefit, prefer delegating independent side tasks that do not block the main implementation.
+- Good subagent tasks include code review, test-gap review, scope/adapter consistency checks, API documentation checks, and security or boundary-condition review.
+- For code-change tasks, after implementation and verification, run an independent subagent review when available before final handoff.
+- If subagents are unavailable or the task is too small to justify them, perform an explicit self-review checklist and record the reason in handoff.
+- Review findings must be fixed before delivery or recorded as accepted residual risk.
+- Subagent review does not replace the developer's final review, self-test, integration testing, PR, merge, or code-quality ownership.
+
 ## Do
 
 - Change only files directly related to the confirmed requirement.
 - Follow existing project patterns, helpers, conventions, and tests.
 - Run project-appropriate tests, build, static checks, or manual verification.
 - Record checks that cannot run and why.
-- Keep a short scope record as files are changed: changed area, reason it belongs to the requirement, and any scope change from the confirmed spec.
+- Keep a short scope record as files are changed: changed area, reason it belongs to the requirement, any scope change from the confirmed spec, and plan/subagent review status when applicable.
 
 ## Do Not
 
@@ -48,6 +66,8 @@ Record:
 - 改了什么
 - 为什么属于本次范围
 - 范围是否变化；如果变化，说明变化内容和确认状态
+- plan/goals 完成情况
+- subagent 或独立审查情况；如果未执行，说明原因和替代自检
 - 验证了什么
 - 未覆盖或需开发者复核的点
 
