@@ -101,6 +101,7 @@ ai-dev-protocol/
   CHANGELOG.md
   docs/
     iteration-guide.md
+    team-collaboration-guide.md
   .codex-plugin/
     plugin.json
   .claude-plugin/
@@ -160,6 +161,8 @@ ai-dev-protocol/
 10. API 变更：使用 `ai-apifox-sync` 输出 Apifox sync summary。
 
 ## 安装方式
+
+团队协作落地说明见 `docs/team-collaboration-guide.md`，其中包含团队插件市场的使用方式。
 
 ### Codex Plugin
 
