@@ -76,7 +76,7 @@ ai-apifox-sync
 13. 最终交付必须包含测试/验证说明。
 14. AI 验证完成后 squash merge 回开发者分支。
 15. 最终由开发者主导 review、联调、检查和后续合并。
-16. 如有 API 变更，最终交付必须包含 Apifox sync summary。
+16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型」。
 
 ## 目录结构
 
