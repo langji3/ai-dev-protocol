@@ -27,7 +27,7 @@ Codex 中本协议拆分为多个 skills：
 - `ai-requirement-intake`：需求澄清、一需求一工作单元。
 - `ai-branch-workflow`：确认开发者分支、已有 AI 分支或停止在主干/环境分支。
 - `ai-spec-writing`：中文 spec 和实现前确认；spec 写入并提交到 `docs/specs/*.md`。
-- `ai-implementation-scope`：范围控制、本地临时 plan、plan/goals 拆分和独立审查，禁止无关改动。
+- `ai-implementation-scope`：范围控制、`docs/plans/` 本地临时 plan、plan/goals 拆分和独立审查，禁止无关改动。
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：squash merge 回开发者分支。
 - `ai-handoff`：最终交付、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证说明和开发者接管说明。
@@ -46,7 +46,7 @@ Codex 中本协议拆分为多个 skills：
 9. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
 10. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 11. 不混入无关重构、格式化、依赖变更。
-12. spec 确认后先创建未追踪的本地 plan，再拆分 plan/goals 并随着推进更新状态；极小改动可使用轻量 plan。
+12. spec 确认后先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals 并随着推进更新状态；极小改动可使用轻量 plan。
 13. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
 14. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
 15. AI 验证完成后 squash merge 回开发者分支。
@@ -60,7 +60,7 @@ Codex 中本协议拆分为多个 skills：
 3. 规格说明：先写中文 spec，明确目标、范围、非目标、影响文件、验证方式；提交 `docs/specs/*.md`。
 4. 实现前确认：用户确认 spec 后，才进入实现或修改阶段。
 5. 范围控制：只改与当前需求相关的内容，不做无关重构、格式化、依赖升级。
-6. 实现计划与审查：先创建未追踪的本地 plan，再拆分 plan/goals；复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。可以借鉴 Superpowers 式逐 goal 推进的方法，但不提交 plan 或创建 `.superpowers/` 产物。
+6. 实现计划与审查：先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals；复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。可以借鉴 Superpowers 中轻量有效的上下文控制、goal 拆分、范围守卫和独立审查方法，但不提交 plan 或创建 `.superpowers/` 产物。
 7. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
 8. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
 9. Merge-back：squash merge 回开发者分支。

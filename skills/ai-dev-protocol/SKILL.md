@@ -7,6 +7,8 @@ description: Route AI-assisted development tasks through AI Dev Protocol. Use fo
 
 Entry skill. Use it to pick the next phase skill; keep detailed rules in phase skills.
 
+AI Dev Protocol is a lightweight team workflow plugin. It owns requirement clarity, branch gates, specs, scope control, commits, handoff, and API sync. It may borrow useful Superpowers-style working methods, but it must not inherit heavy hidden state, broad agent role systems, or `.superpowers/` artifacts.
+
 ## Flow
 
 1. `ai-requirement-intake`: clarify one independent requirement.
@@ -18,6 +20,15 @@ Entry skill. Use it to pick the next phase skill; keep detailed rules in phase s
 7. `ai-handoff`: final delivery.
 8. `ai-apifox-sync`: API changes only.
 
+## Product Principles
+
+- One obvious entry: users normally trigger only `ai-dev-protocol`.
+- Keep phase skills small; do not turn the plugin into a large general-purpose agent framework.
+- Make gates visible: branch source, spec confirmation, implementation start, commit, merge-back, and handoff.
+- Recover from current state by inspecting branch, Git status, existing spec, local plan, and commits.
+- Keep temporary AI execution state out of business commits.
+- Prioritize developer takeover over automation.
+
 ## Conversation Entry
 
 Treat natural design discussion as the start of the workflow when it is likely to become code work.
@@ -28,7 +39,7 @@ After those steps, continue to the next gate in the flow.
 
 ## Branch Workflow
 
-- Developer branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`, commit a requirement spec under `docs/specs/`, create an ignored local plan, implement, verify, and squash merge back.
+- Developer branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`, commit a requirement spec under `docs/specs/`, create the corresponding ignored local plan under `docs/plans/`, implement, verify, and squash merge back.
 - Existing `ai/...`: continue work; identify source developer branch.
 - Trunk/environment branch: stop unless the user explicitly says this branch is their developer aggregation branch.
 - Ambiguous branch: ask before editing.
@@ -43,7 +54,7 @@ Before implementation:
 - Chinese spec is confirmed.
 - The user has confirmed the Chinese spec in the current workflow after branch mode is known.
 - The AI branch has a committed `docs/specs/{yyyyMMdd}-{short-desc}.md` requirement spec.
-- The AI branch has an ignored local plan, preferably `.ai-dev-protocol/plans/{yyyyMMdd}-{short-desc}-plan.md`; the plan must not be tracked by Git.
+- The AI branch has an ignored local plan at `docs/plans/{yyyyMMdd}-{short-desc}-plan.md`, using the corresponding spec basename; the plan must not be tracked by Git.
 - If the user only confirmed the developer branch, that confirms branch source only; next step is `ai-spec-writing`, not implementation.
 
 Before delivery:
@@ -57,10 +68,20 @@ Before delivery:
 - Developer takeover is stated.
 - API changes include Apifox sync summary.
 
+## Recovery Mode
+
+Do not assume the workflow starts from zero. Before deciding the next phase, infer current state:
+
+- Current branch: developer branch, `ai/...`, trunk/environment branch, or ambiguous branch.
+- Git status: clean, unstaged work, staged work, committed implementation, or local branch ahead.
+- Spec status: missing, present but unconfirmed, confirmed, or stale.
+- Local plan status: missing, present and ignored under `docs/plans/`, or incorrectly tracked / misplaced.
+- API sync status: no API change, summary needed, or Apifox-ready list requested.
+
 ## Global Rules
 
 - Specs, handoff, Apifox summaries, and AI commit messages use Chinese.
 - Code identifiers, API paths, table names, config keys, commands, and file paths stay English.
 - No unrelated refactor, formatting sweep, dependency upgrade, tracked plan file, `.superpowers/`, or external workflow artifact unless explicitly requested.
-- Implementation may borrow the Superpowers-style working method: split goals, progress step by step, and use independent review. Create an ignored local plan file for execution; do not create `.superpowers/` files.
+- Implementation may borrow selected Superpowers-style methods: context hygiene, goal decomposition, step-by-step progress, scope guard, and independent review. Create an ignored local plan file for execution; do not create `.superpowers/` files or hidden workflow artifacts.
 - Developer owns final review, self-test, integration testing, PR, merge, and code quality.

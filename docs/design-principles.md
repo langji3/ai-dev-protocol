@@ -1,0 +1,83 @@
+# AI Dev Protocol Design Principles
+
+AI Dev Protocol is a lightweight team workflow plugin for real development work. It borrows useful ideas from Superpowers-style skill systems, but it does not try to become a large general-purpose agent framework.
+
+## Positioning
+
+AI Dev Protocol is the team process layer for AI-assisted coding:
+
+- It controls requirement clarity, branch workflow, specs, implementation scope, commits, handoff, and API sync.
+- It does not replace the coding agent's normal implementation ability.
+- It does not introduce a large hidden task system.
+- It does not require teams to adopt Superpowers artifacts or directory structures.
+
+The goal is simple:
+
+```text
+Every AI code change should be clear in requirement, correct in branch, controlled in scope, clean in commit, easy to hand off, and ready for API sync when needed.
+```
+
+## Borrowed Ideas
+
+AI Dev Protocol intentionally borrows these ideas:
+
+- Context hygiene: read enough project context to act safely, but avoid loading unrelated files.
+- Plan discipline: split non-trivial work into goals before implementation.
+- Scope guard: stop and explain when implementation needs to expand beyond the confirmed spec.
+- Review pass: use subagent or independent review when available; otherwise record fallback self-review.
+- Handoff quality: final delivery should help the developer take over review, integration testing, and follow-up work.
+- Recovery mode: infer current workflow state from Git, spec, plan, and commits so work can continue after interruption.
+- Artifact policy: keep temporary AI execution state out of business commits.
+
+## What Not To Borrow
+
+AI Dev Protocol should not inherit complexity that makes day-to-day development harder:
+
+- No large nested workflow system.
+- No hidden long-lived task state.
+- No required `.superpowers/` artifacts.
+- No broad agent role hierarchy.
+- No mandatory long documents for tiny fixes.
+- No automatic scope expansion because a tool found adjacent work.
+- No workflow files committed to business projects unless the user explicitly asks for them.
+
+## Layering
+
+Use this priority when rules conflict:
+
+```text
+1. User's explicit current instruction
+2. Repository safety and non-destructive rules
+3. AI Dev Protocol gates and team workflow
+4. Optional tool or Superpowers-style execution suggestions
+```
+
+AI Dev Protocol owns the workflow gates. Optional tools and borrowed methods can improve execution, but they must not skip spec confirmation, branch checks, scope control, verification, or handoff.
+
+## Lightweight Product Rules
+
+- One obvious entry: users should normally trigger `ai-dev-protocol`.
+- Small phase skills: each skill owns one stage and stays concise.
+- Visible gates: branch source, spec confirmation, implementation start, commit, and merge-back should be explicit.
+- Recoverable state: the plugin should inspect current branch, Git status, spec, plan, and commits before deciding the next step.
+- Minimal artifacts: committed files should be specs, code, tests, docs, and intentional templates; local plans stay ignored.
+- Unified paths: committed specs live in `docs/specs/`; local execution plans live only in ignored `docs/plans/` and use the corresponding spec basename.
+- Team handoff first: final output should make developer review, self-test, integration, PR, merge, and Apifox sync easier.
+
+## Adding New Capabilities
+
+Add a new skill only when it is a reusable workflow phase. Prefer improving an existing phase skill for wording, gates, or checklist changes.
+
+Good candidates:
+
+- API contract review
+- Database migration review
+- PR review
+- Release check
+
+Poor candidates:
+
+- One sentence rule
+- One project's local convention
+- A helper that only wraps a single command
+- A feature that makes every simple fix go through a heavy process

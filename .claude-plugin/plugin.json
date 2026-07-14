@@ -1,7 +1,7 @@
 {
   "name": "ai-dev-protocol",
-  "description": "Small-team workflow protocol for AI-assisted software development: requirement intake, developer-branch workflow, Chinese specs, implementation scope control, merge-back, commits, handoff, and API sync.",
-  "version": "0.2.9",
+  "description": "Lightweight team workflow plugin for AI-assisted software development: requirement intake, developer-branch workflow, Chinese specs, implementation scope control, merge-back, commits, handoff, and API sync.",
+  "version": "0.3.0",
   "author": {
     "name": "Langji Team"
   },

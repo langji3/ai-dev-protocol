@@ -1,6 +1,7 @@
-# Local agent/Codex state
+# Local agent and workflow state
 .agents/
 .ai-dev-protocol/
+docs/plans/
 
 # IDE/editor settings
 .idea/

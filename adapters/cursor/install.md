@@ -22,7 +22,7 @@ Cursor 在代码修改、需求实现、bug fix、提交或交付任务中应读
 - 确认开发者分支或已有 AI 分支。
 - 写中文 spec。
 - 创建并提交 `docs/specs/*.md`。
-- 创建 `.ai-dev-protocol/plans/*.md` 本地 plan，并确认它被忽略且未被 Git 追踪。
+- 在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md` 创建对应 spec 的本地 plan，并确认它被忽略且未被 Git 追踪。
 - 控制实现范围。
 - 提交实现改动并说明实现提交状态。
 - 说明 squash merge-back 状态。

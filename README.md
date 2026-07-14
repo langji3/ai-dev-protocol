@@ -1,20 +1,22 @@
 # AI Dev Protocol
 
-AI Dev Protocol is a team workflow protocol for AI-assisted software development.
+AI Dev Protocol is a lightweight team workflow plugin for AI-assisted software development.
 
-AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：开发者分支作为需求汇总站，每个 AI 工作单元创建独立 `ai/...` 分支，完成后 squash merge 回开发者分支。
+AI Dev Protocol 是一套面向小型团队的轻量 AI 辅助开发插件：它不追求覆盖所有 AI 工作方式，而是保证每个 AI 代码变更需求清楚、分支正确、范围可控、提交干净、交付可接管、API 可同步。
 
 ## 项目定位
 
-`ai-dev-protocol` 是一个可独立维护、可通过 GitHub 拉取、可被多个 AI 编程工具复用的 workflow skills/plugin 仓库。它不是单个项目里的提示词，也不是普通规范文档。
+`ai-dev-protocol` 是一个可独立维护、可通过 GitHub 拉取、可被多个 AI 编程工具复用的轻量团队开发流程插件。它不是单个项目里的提示词，也不是普通规范文档。
 
-本仓库采用类似 Superpowers 的组织方式：
+本仓库借鉴 Superpowers 的 skill 拆分、上下文控制、计划拆分、独立审查和交付质量思想，但不继承大而全的任务系统、隐藏状态、复杂产物和过度自动化。AI Dev Protocol 的定位是团队流程主控层，而不是通用能力增强层。
 
 - `.codex-plugin/plugin.json` 声明 Codex plugin。
 - `.claude-plugin/plugin.json` 声明 Claude Code plugin 元数据。
-- `skills/` 下每个子目录都是一个独立 skill。
-- `ai-dev-protocol` 是总入口和路由 skill。
+- `skills/` 下每个子目录都是一个小而聚焦的 workflow skill。
+- `ai-dev-protocol` 是唯一建议用户主动触发的主入口和路由 skill。
 - 其他 `ai-*` skills 分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 同步。
+
+设计原则见 `docs/design-principles.md`，常见使用方式见 `docs/usage-scenarios.md`。
 
 ## 核心工作流
 
@@ -34,7 +36,7 @@ dev/<name>
 - 开发者分支是多个 AI 需求的汇总站。
 - 一个 `ai/...` 分支只处理一个明确需求。
 - AI 在 `ai/...` 分支上先提交 `docs/specs/{yyyyMMdd}-{short-desc}.md` 需求 spec，用户确认后再创建本地临时 plan。
-- 本地 plan 推荐放在 `.ai-dev-protocol/plans/{yyyyMMdd}-{short-desc}-plan.md`，用于拆分 goals 和跟踪执行，但必须被 `.gitignore` 忽略，不进入 Git 追踪。
+- 本地 plan 统一放在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md`，文件名参考对应 spec，用于拆分 goals 和跟踪执行；该目录必须被 `.gitignore` 忽略，不进入 Git 追踪。
 - AI 完成实现、验证、独立审查和提交后，默认 squash merge 回开发者分支。
 - 开发者在开发者分支上主导 review、联调、检查和后续合并。
 - AI 在 merge-back 后转为辅助身份：解释变更、修 review 问题、补测试、整理 Apifox 摘要。
@@ -67,7 +69,7 @@ ai-apifox-sync
 4. AI 不直接在开发者分支、主干或环境分支上实现。
 5. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
 6. spec 必须沉淀为 `docs/specs/*.md` 并先提交。
-7. 开始实现前必须创建本地临时 plan，并确认 plan 未被 Git 追踪。
+7. 开始实现前必须在 `docs/plans/` 创建本地临时 plan，并确认 plan 未被 Git 追踪。
 8. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 9. 不混入无关重构、格式化、依赖变更。
 10. 实现阶段先拆分 plan/goals，并随着推进更新状态。
@@ -78,6 +80,26 @@ ai-apifox-sync
 15. 最终由开发者主导 review、联调、检查和后续合并。
 16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型」。
 
+## 轻量插件原则
+
+AI Dev Protocol 优先保证真实团队开发的可用性：
+
+- 少入口：用户通常只需要触发 `ai-dev-protocol`。
+- 少隐藏状态：流程状态来自当前分支、Git 状态、spec、plan 和提交记录。
+- 少自动化魔法：关键 gate 必须让用户知道，例如 spec 确认、分支来源、merge-back。
+- 少产物污染：AI 临时 plan、外部 workflow 产物和工具状态默认不进入业务提交。
+- 少路径分歧：spec 统一在 `docs/specs/`，本地 plan 统一在 `docs/plans/`。
+- 先可接管，再自动化：交付必须让开发者能 review、联调、测试和继续合并。
+
+从 Superpowers 借鉴的是有效开发方法，不是完整系统：
+
+- 借鉴 context hygiene：只读取完成任务需要的上下文。
+- 借鉴 plan discipline：复杂任务先拆 goal，推进时更新状态。
+- 借鉴 scope guard：发现范围扩大要说明并收口。
+- 借鉴 review pass：代码变更后做独立审查或替代自检。
+- 借鉴 handoff quality：最终交付说明验证、风险和开发者接管。
+- 不借鉴过度嵌套流程、隐藏任务状态、`.superpowers/` 产物或大而全 agent 角色。
+
 ## 目录结构
 
 ```text
@@ -86,9 +108,12 @@ ai-dev-protocol/
   CHANGELOG.md
   docs/
     iteration-guide.md
-    team-collaboration-guide.md
+    design-principles.md
+    usage-scenarios.md
     specs/
       {yyyyMMdd}-{short-desc}.md
+    plans/
+      {yyyyMMdd}-{short-desc}-plan.md  # ignored local execution plans
   .codex-plugin/
     plugin.json
   .claude-plugin/
@@ -142,7 +167,7 @@ ai-dev-protocol/
 2. 分支判断：使用 `ai-branch-workflow` 确认开发者分支、已有 AI 分支或阻断主干/环境分支。
 3. 规格说明：使用 `ai-spec-writing` 写中文 spec，明确目标、范围、非目标、影响文件、验证方式；必须创建并提交 `docs/specs/*.md`。
 4. 实现前确认：用户确认 spec 后，AI 才进入实现或修改阶段。
-5. 本地计划：使用 `ai-implementation-scope` 创建 `.ai-dev-protocol/plans/*.md` 本地临时 plan，并确认它未被 Git 追踪。
+5. 本地计划：使用 `ai-implementation-scope` 在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md` 创建本地临时 plan，并确认它未被 Git 追踪。
 6. 范围控制：使用 `ai-implementation-scope` 控制改动范围，不做无关重构、格式化、依赖升级。
 7. 实现计划与审查：按本地 plan 拆分 plan/goals，复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。
 8. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
@@ -150,6 +175,18 @@ ai-dev-protocol/
 10. Merge-back：使用 `ai-merge-back` 将 AI 分支 squash merge 回开发者分支。
 11. 最终交付：使用 `ai-handoff` 输出变更摘要、spec 文档和提交状态、本地 plan 执行状态、分支状态、merge-back 状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。
 12. API 变更：使用 `ai-apifox-sync` 输出 Apifox sync summary。
+
+### 状态恢复
+
+AI Dev Protocol 必须能从中途继续，而不是假设所有任务都从零开始：
+
+- 已在开发者分支：确认分支来源，创建或建议创建 `ai/...` 分支。
+- 已在 `ai/...` 分支：识别来源开发者分支、spec、plan、提交和未完成项。
+- spec 已存在：读取并确认是否仍是当前需求范围。
+- plan 已存在：继续使用 `docs/plans/` 下对应 spec 的未追踪本地 plan；如不存在，按当前 spec 创建。
+- 已实现未提交：先做范围检查和验证，再按提交规则处理。
+- 已提交未 merge-back：记录验证状态，按 `ai-merge-back` 处理。
+- API 已变更但未整理：补充 Apifox sync summary，必要时输出可录入的接口清单和数据模型。
 
 ### 对话式需求入口
 
@@ -164,7 +201,7 @@ ai-dev-protocol/
 
 ## 安装方式
 
-团队协作落地说明见 `docs/team-collaboration-guide.md`，其中包含团队插件市场的使用方式。
+插件设计原则见 `docs/design-principles.md`，真实使用场景见 `docs/usage-scenarios.md`。
 
 ### Codex Plugin
 

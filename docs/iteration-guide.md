@@ -41,7 +41,7 @@ Did AI create or request the correct AI branch?
 Did AI identify the developer branch or existing AI branch correctly?
 Did AI write a Chinese spec before implementation?
 Did AI commit the spec under docs/specs before implementation?
-Did AI create a local plan and keep it untracked?
+Did AI create the local plan under `docs/plans/` using the corresponding spec basename and keep it untracked?
 Did AI avoid treating developer-branch confirmation as implementation approval?
 Did AI avoid unrelated refactors, formatting, and dependency changes?
 Did AI record implementation scope and any scope changes explicitly?
@@ -104,7 +104,7 @@ Before publishing a new version:
 [ ] Codex adapter mentions the current skill names.
 [ ] Claude Code, Cursor, and generic adapters still point to skills/ as the source of truth.
 [ ] Templates still live under the skill that uses them.
-[ ] Local plan paths such as `.ai-dev-protocol/` are ignored and not tracked.
+[ ] Local plan paths under `docs/plans/` are ignored and not tracked.
 [ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
 [ ] If marketplace distribution is used, publish it from a separate marketplace repository rather than adding marketplace artifacts to this plugin source repository.
 [ ] CHANGELOG.md has an entry for the release.
@@ -137,7 +137,7 @@ Expected: AI should ask what requirement is being changed, check branch workflow
 我在 developer/zhangsan 分支，帮我并行启动一个订单状态筛选需求。
 ```
 
-Expected: AI should create or suggest an `ai/...` branch from the developer branch, commit `docs/specs/*.md`, create an ignored local plan, complete the requirement there, and use `ai-merge-back` to squash merge back after verification.
+Expected: AI should create or suggest an `ai/...` branch from the developer branch, commit `docs/specs/*.md`, create the corresponding ignored local plan under `docs/plans/`, complete the requirement there, and use `ai-merge-back` to squash merge back after verification.
 
 ```text
 我现在要进行项目公告模块的设计，目前我们的想法有：公告分紧急、重要、一般三种程度。紧急不管已读未读都弹出来，重要未读才弹出来，一般不弹。前端 Markdown 显示，后端直接输入 Markdown。
@@ -167,7 +167,7 @@ Expected: AI should write a Chinese spec before editing, then update implementat
 我发现，现在我们的工作流写 spec 是直接回复，但这样不行。每个需求都应该沉淀一份 spec md。plan 是本地临时执行文件，不进入 Git。我们先保证开发者分支流程完整走通。
 ```
 
-Expected: AI should treat this as a protocol iteration, create an `ai/...` branch from the developer branch, add and commit a `docs/specs/*.md` spec, wait for confirmation, create an ignored local plan under `.ai-dev-protocol/plans/`, ensure it is untracked, then update developer-branch workflow rules through implementation, review, commit, squash merge-back, and handoff.
+Expected: AI should treat this as a protocol iteration, create an `ai/...` branch from the developer branch, add and commit a `docs/specs/*.md` spec, wait for confirmation, create the corresponding ignored local plan under `docs/plans/`, ensure it is untracked, then update developer-branch workflow rules through implementation, review, commit, squash merge-back, and handoff.
 
 ## Release Notes Style
 

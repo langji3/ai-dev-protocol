@@ -8,6 +8,21 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.3.0] - 2026-07-14
+
+### Added
+
+- Added design principles for the lightweight plugin direction and Superpowers-inspired boundaries.
+- Added usage scenarios for new requirements, existing AI branches, small fixes, API sync, design discussion, scope expansion, and handoff.
+
+### Changed
+
+- Repositioned AI Dev Protocol as a lightweight team workflow plugin rather than a broad Superpowers-compatible workflow layer.
+- Clarified that the plugin borrows selected Superpowers-style methods without adopting hidden workflow state or `.superpowers/` artifacts.
+- Added recovery-mode guidance to the main routing skill.
+- Standardized local plan placement under ignored `docs/plans/` using the corresponding spec basename.
+- Updated plugin metadata to version `0.3.0`.
+
 ## [0.2.9] - 2026-06-30
 
 ### Changed
@@ -22,7 +37,7 @@ All notable changes to AI Dev Protocol are documented here.
 ### Fixed
 
 - Required personal branch mode to commit requirement specs under `docs/specs/` before implementation.
-- Defined ignored local plan files under `.ai-dev-protocol/plans/` for personal branch mode execution.
+- Defined ignored local plan files for personal branch mode execution.
 - Updated implementation, merge-back, and handoff guidance to record spec status, local plan status, and merge-back state.
 - Added a local plan template and ignored `.ai-dev-protocol/` local workflow state.
 
