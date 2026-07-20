@@ -69,10 +69,27 @@ Expected behavior:
 - Treat the endpoint as an API contract change.
 - Include request, response, permission, error cases, compatibility, and verification in the spec.
 - In final delivery, include Apifox sync summary.
-- Ask whether the user needs an Apifox-ready "接口清单 + 数据模型".
+- Ask whether the user needs an Apifox-ready "接口清单 + 数据模型 JSON Schema".
 - If requested, generate the complete Apifox-ready artifact using `ai-apifox-sync`.
 
-## 5. Design Discussion Only
+## 5. Extract Apifox Entry Catalog
+
+User says:
+
+```text
+把这个需求影响到的接口和数据模型摘出来，数据模型给 JSON Schema，给我一份录入 Apifox 的清单。
+```
+
+Expected behavior:
+
+- Use `ai-apifox-sync` directly, even if implementation is not being done in the current turn.
+- Read the provided requirement, spec, diff, handoff, or change description.
+- Extract affected endpoints, request models, response models, common models, enums, permissions, error codes, examples, Mock needs, and test-case notes.
+- Provide JSON Schema for every request-side model, including Path params, Query params, Headers, Cookies, and Body, plus every response model, page model, common response model, and enum-backed model.
+- Mark uncertain items as `待确认` instead of inventing contracts.
+- Output an Apifox-ready "接口清单 + 数据模型 JSON Schema" catalog.
+
+## 6. Design Discussion Only
 
 User says:
 
@@ -87,7 +104,7 @@ Expected behavior:
 - Do not create branches, specs, plans, or code unless the user asks to enter implementation workflow.
 - If the discussion begins to turn into implementation, summarize the requirement and ask whether to start AI Dev Protocol.
 
-## 6. Scope Expansion During Implementation
+## 7. Scope Expansion During Implementation
 
 User says:
 
@@ -102,7 +119,7 @@ Expected behavior:
 - Continue only after the user explicitly confirms the scope change.
 - Record the scope change in the local plan and final handoff.
 
-## 7. Already Implemented, Need Handoff
+## 8. Already Implemented, Need Handoff
 
 User says:
 

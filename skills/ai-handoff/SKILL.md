@@ -22,7 +22,7 @@ Use for final delivery.
 - 风险说明
 - 后续建议
 - Apifox sync summary
-- 如果涉及 API 变更，交付末尾主动询问用户是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型」
+- 如果涉及 API 变更，交付末尾主动询问用户是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」
 
 Use `templates/handoff-summary.md` when structure helps.
 
@@ -39,10 +39,12 @@ If a check could not run, state:
 
 If API behavior, request/response contracts, endpoints, status codes, examples, permissions, or schemas changed, use `ai-apifox-sync`.
 
+If the user asks to record the requirement/change in Apifox, use `ai-apifox-sync` to produce the Apifox entry catalog, including affected interfaces and data model JSON Schemas.
+
 Also include this prompt in the final handoff:
 
 ```text
-本次涉及 API 变更。是否需要我继续整理一份可直接给 Apifox 录入的「接口清单 + 数据模型」？
+本次涉及 API 变更。是否需要我继续整理一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」？
 ```
 
 If no API changed:

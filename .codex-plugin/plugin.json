@@ -1,7 +1,7 @@
 {
   "name": "ai-dev-protocol",
-  "version": "0.3.0",
-  "description": "Lightweight team workflow plugin for AI-assisted software development: requirement intake, developer-branch workflow, specs, scope control, merge-back, commits, handoff, and API sync.",
+  "version": "0.4.0",
+  "description": "Lightweight team workflow plugin for AI-assisted software development: requirement intake, developer-branch workflow, specs, scope control, merge-back, commits, handoff, and Apifox API/catalog sync.",
   "author": {
     "name": "AI Dev Protocol Team"
   },
@@ -17,7 +17,7 @@
   "interface": {
     "displayName": "AI Dev Protocol",
     "shortDescription": "Lightweight team workflow skills for AI-assisted development",
-    "longDescription": "Use AI Dev Protocol to guide coding agents through a lightweight team workflow for requirement intake, developer-branch workflow, Chinese specs, scope control, merge-back, commits, handoff, and Apifox sync summaries. It borrows useful skill-system practices without adopting heavy hidden workflow state.",
+    "longDescription": "Use AI Dev Protocol to guide coding agents through a lightweight team workflow for requirement intake, developer-branch workflow, Chinese specs, scope control, merge-back, commits, handoff, Apifox sync summaries, and Apifox-ready interface/model catalogs. It borrows useful skill-system practices without adopting heavy hidden workflow state.",
     "developerName": "AI Dev Protocol Team",
     "category": "Coding",
     "capabilities": [

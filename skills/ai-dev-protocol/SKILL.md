@@ -1,6 +1,6 @@
 ---
 name: ai-dev-protocol
-description: Route AI-assisted development tasks through AI Dev Protocol. Use for coding tasks that need requirement clarification, developer-branch workflow selection, Chinese specs, scoped implementation, commits, merge-back, verified handoff, or Apifox API sync summaries.
+description: Route AI-assisted development tasks through AI Dev Protocol. Use for coding tasks that need requirement clarification, developer-branch workflow selection, Chinese specs, scoped implementation, commits, merge-back, verified handoff, Apifox API sync summaries, or Apifox-ready interface/model catalogs.
 ---
 
 # AI Dev Protocol
@@ -18,7 +18,7 @@ AI Dev Protocol is a lightweight team workflow plugin. It owns requirement clari
 5. `ai-commit-rules`: prepare/review Chinese `feat:` / `fix:` commits.
 6. `ai-merge-back`: squash merge `ai/...` back to the developer branch.
 7. `ai-handoff`: final delivery.
-8. `ai-apifox-sync`: API changes only.
+8. `ai-apifox-sync`: API changes, Apifox sync summaries, and Apifox-ready interface/model catalogs.
 
 ## Product Principles
 
@@ -66,7 +66,7 @@ Before delivery:
 - Commits use Chinese `feat:` / `fix:` when created.
 - Merge-back status is recorded.
 - Developer takeover is stated.
-- API changes include Apifox sync summary.
+- API changes include Apifox sync summary, and Apifox-ready catalogs when requested.
 
 ## Recovery Mode
 
@@ -76,7 +76,7 @@ Do not assume the workflow starts from zero. Before deciding the next phase, inf
 - Git status: clean, unstaged work, staged work, committed implementation, or local branch ahead.
 - Spec status: missing, present but unconfirmed, confirmed, or stale.
 - Local plan status: missing, present and ignored under `docs/plans/`, or incorrectly tracked / misplaced.
-- API sync status: no API change, summary needed, or Apifox-ready list requested.
+- API sync status: no API change, summary needed, Apifox entry catalog requested, or Apifox-ready list completed.
 
 ## Global Rules
 

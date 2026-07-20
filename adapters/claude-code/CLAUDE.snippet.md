@@ -17,7 +17,7 @@
 - 审查：复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
 - 提交：commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 - Merge-back：squash merge 回开发者分支。
-- 交付：最终交付包含 spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
+- 交付：最终交付包含 spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
 代码标识符、API 路径、表名、配置键保持英文。
 

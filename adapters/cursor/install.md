@@ -28,4 +28,4 @@ Cursor 在代码修改、需求实现、bug fix、提交或交付任务中应读
 - 说明 squash merge-back 状态。
 - 最终交付验证结果和开发者接管事项。
 - 最终交付 spec 文档状态、本地 plan 状态和实现提交状态。
-- API 变更时输出 Apifox sync summary。
+- API 变更时输出 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。

@@ -51,6 +51,7 @@ Did AI run or explain verification?
 Did AI squash merge back to the developer branch?
 Did final delivery include risks and follow-up notes?
 If API changed, did final delivery include Apifox sync summary?
+If the user asked for Apifox entry, did AI extract the affected interface catalog and provide JSON Schema for every affected data model?
 
 What failed?
 Which skill should change?
@@ -71,6 +72,7 @@ Change an existing skill when the behavior belongs to an existing phase:
 - Squash merge-back to the developer branch: `ai-merge-back`
 - Final delivery and verification summary: `ai-handoff`
 - API contract summary: `ai-apifox-sync`
+- Apifox entry catalog: `ai-apifox-sync`
 - Routing between phases: `ai-dev-protocol`
 
 Create a new skill only when the workflow is a distinct reusable phase, such as:
@@ -126,6 +128,12 @@ Expected: AI should clarify scope if missing details, then write a Chinese spec 
 ```
 
 Expected: AI should separate the API fix from unrelated formatting and require Apifox sync summary if the API contract changes.
+
+```text
+把这个需求影响到的接口、请求参数、响应模型和错误码摘出来，数据模型给 JSON Schema，给我一份录入 Apifox 的清单。
+```
+
+Expected: AI should use `ai-apifox-sync` directly to produce an Apifox entry catalog, separate confirmed contracts from `待确认` items, and include affected interfaces; request-side JSON Schemas for Path, Query, Headers, Cookies, and Body; response model JSON Schemas; page/common model JSON Schemas; enums; permissions; error codes; examples; Mock notes; and test-case notes.
 
 ```text
 把这个改了并提交。

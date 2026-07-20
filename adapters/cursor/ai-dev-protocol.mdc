@@ -35,7 +35,7 @@ alwaysApply: false
 - 可以借鉴 Superpowers 中轻量有效的上下文控制、goal 拆分、范围守卫和独立审查方法，但 plan 是本地临时执行文件，不得进入 Git 追踪；不得创建 `.superpowers/` 产物，除非用户明确要求。
 - commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 - AI 验证后 squash merge 回开发者分支。
-- 最终交付包含 spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary。
+- 最终交付包含 spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
 阶段对应关系：
 

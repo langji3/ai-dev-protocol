@@ -39,4 +39,4 @@
 - 在 AI 分支提交实现改动，并说明实现提交状态。
 - squash merge 回开发者分支。
 - 交付 spec 文档状态、本地 plan 状态、实现提交状态、merge-back 状态和开发者接管事项。
-- 若涉及 API 变更，确认包含 Apifox sync summary。
+- 若涉及 API 变更，确认包含 Apifox sync summary；用户需要录入 Apifox 时，确认包含接口清单和数据模型 JSON Schema 清单。

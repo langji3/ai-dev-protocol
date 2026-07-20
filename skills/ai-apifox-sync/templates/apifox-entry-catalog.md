@@ -1,26 +1,47 @@
-# Apifox 接口同步清单
+# Apifox 录入清单
 
 ## 公共信息
 
 | 项目 | 内容 |
 | --- | --- |
+| 来源 | 需求 / Spec / Diff / 实现摘要 / 交付摘要 |
 | 模块 |  |
 | Base Path | `/{basePath}` |
 | 认证方式 | JWT 登录态 / 无需登录 / 管理端权限 |
 | 返回结构 | `BaseResponse<T>` |
 | 时间格式 | `yyyy-MM-dd HH:mm:ss` |
 | 本次变更类型 | 新增 / 修改 / 删除 / 行为调整 |
-| 兼容性 | 兼容 / 不兼容，说明原因 |
+| 兼容性 | 兼容 / 不兼容 / 待确认 |
 
-## 一、接口清单
+## 一、影响范围清单
 
-| 序号 | 接口名称 | Method | Path | 权限 | 请求 Schemas | 响应模型 | 变更类型 |
+### 1. 接口
+
+| 变更类型 | Method | Path | 接口名称 | 权限 | 请求 Schemas | 响应模型 | 状态 |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| 1 |  | `GET` | `/example` | 登录用户 | `ExamplePathParams` / `ExampleQueryParams` / `ExampleHeaders` / `ExampleBody` | `BaseResponse<ExampleVo>` | 新增 |
+| 新增 / 修改 / 删除 | `GET` | `/example` |  | 登录用户 | `ExamplePathParams` / `ExampleQueryParams` / `ExampleHeaders` / `ExampleBody` | `BaseResponse<ExampleVo>` | 已确认 / 待确认 |
+
+### 2. 数据模型
+
+| 变更类型 | 模型名称 | 类型 | 用途 | 状态 |
+| --- | --- | --- | --- | --- |
+| 新增 / 修改 / 删除 | `ExampleQueryParams` | Request-Path / Request-Query / Request-Header / Request-Cookie / Request-Body / Response / Page / Common / Enum |  | 已确认 / 待确认 |
+
+### 3. 权限 / 错误码 / 枚举
+
+| 类型 | 名称 | 变更说明 | 状态 |
+| --- | --- | --- | --- |
+| 权限 / 错误码 / 枚举 |  |  | 已确认 / 待确认 |
 
 ## 二、接口详情
 
 ### 1. 接口名称
+
+**变更类型**
+
+```text
+新增 / 修改 / 删除 / 行为调整
+```
 
 **Method**
 
@@ -66,18 +87,7 @@ Path 参数 / Query 参数 / Body JSON / 无参数
 {
   "type": "object",
   "required": [],
-  "properties": {
-    "pageNo": {
-      "type": "integer",
-      "description": "页码",
-      "example": 1
-    },
-    "pageSize": {
-      "type": "integer",
-      "description": "每页条数",
-      "example": 10
-    }
-  }
+  "properties": {}
 }
 ```
 
@@ -110,9 +120,7 @@ Path 参数 / Query 参数 / Body JSON / 无参数
 **Body JSON 示例**
 
 ```json
-{
-  "name": "示例名称"
-}
+{}
 ```
 
 **Body Schema**
@@ -120,14 +128,7 @@ Path 参数 / Query 参数 / Body JSON / 无参数
 ```json
 {
   "type": "object",
-  "required": ["name"],
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "名称",
-      "example": "示例名称"
-    }
-  }
+  "properties": {}
 }
 ```
 
@@ -149,20 +150,34 @@ BaseResponse<ExampleVo>
 
 **错误场景**
 
-| code | msg | 触发条件 |
-| --- | --- | --- |
-|  |  |  |
+| code | msg | 触发条件 | 状态 |
+| --- | --- | --- | --- |
+|  |  |  | 已确认 / 待确认 |
+
+**兼容性说明**
+
+-
 
 **Apifox 录入提醒**
 
-- 文档：需要新增 / 更新接口说明
-- 示例：需要补充请求示例和成功响应示例
-- Mock：需要配置 / 不需要
-- 测试用例：需要覆盖正常场景、权限失败、参数非法、业务异常
+- 文档：新增 / 更新 / 删除
+- 示例：需要 / 不需要 / 待确认
+- Mock：需要 / 不需要 / 待确认
+- 测试用例：正常场景 / 权限失败 / 参数非法 / 业务异常
 
 ## 三、数据模型 JSON Schema
 
-> 所有请求模型、响应模型、分页模型、通用响应模型和枚举相关模型都必须给出 JSON Schema。请求模型包括 Path、Query、Headers、Cookies、Body。
+> 所有请求模型、响应模型、分页模型、通用响应模型和枚举相关模型都必须给出 JSON Schema。表格说明只能作为补充，不能替代 JSON Schema。
+
+### ExampleBody
+
+```json
+{
+  "type": "object",
+  "required": [],
+  "properties": {}
+}
+```
 
 ### ExamplePathParams
 
@@ -186,18 +201,7 @@ BaseResponse<ExampleVo>
 {
   "type": "object",
   "required": [],
-  "properties": {
-    "pageNo": {
-      "type": "integer",
-      "description": "页码",
-      "example": 1
-    },
-    "pageSize": {
-      "type": "integer",
-      "description": "每页条数",
-      "example": 10
-    }
-  }
+  "properties": {}
 }
 ```
 
@@ -227,39 +231,45 @@ BaseResponse<ExampleVo>
 }
 ```
 
-### ExampleBody
-
-```json
-{
-  "type": "object",
-  "required": ["name"],
-  "properties": {
-    "name": {
-      "type": "string",
-      "description": "名称",
-      "example": "示例名称"
-    }
-  }
-}
-```
-
 ### ExampleVo
 
 ```json
 {
   "type": "object",
   "required": [],
+  "properties": {}
+}
+```
+
+### PageExampleVo
+
+```json
+{
+  "type": "object",
+  "required": [],
   "properties": {
-    "id": {
-      "type": "string",
-      "description": "ID",
-      "example": "123"
+    "records": {
+      "type": "array",
+      "description": "当前页数据",
+      "items": {
+        "$ref": "#/components/schemas/ExampleVo"
+      }
     },
-    "createdAt": {
-      "type": "string",
-      "format": "date-time",
-      "description": "创建时间",
-      "example": "2026-07-01 10:00:00"
+    "total": {
+      "type": "integer",
+      "description": "总条数"
+    },
+    "size": {
+      "type": "integer",
+      "description": "每页条数"
+    },
+    "current": {
+      "type": "integer",
+      "description": "当前页"
+    },
+    "pages": {
+      "type": "integer",
+      "description": "总页数"
     }
   }
 }
@@ -267,10 +277,9 @@ BaseResponse<ExampleVo>
 
 ## 四、枚举说明
 
-| 字段 | 枚举值 | 含义 |
-| --- | --- | --- |
-| status | 1 | 启用 |
-| status | 2 | 禁用 |
+| 字段 | 枚举值 | 含义 | 状态 |
+| --- | --- | --- | --- |
+| status | 1 | 启用 | 已确认 / 待确认 |
 
 ## 五、通用响应模型
 
@@ -279,7 +288,6 @@ BaseResponse<ExampleVo>
 ```json
 {
   "type": "object",
-  "required": ["code", "msg", "data"],
   "properties": {
     "code": {
       "type": "integer",
@@ -323,14 +331,17 @@ BaseResponse<ExampleVo>
 }
 ```
 
-## 六、本次 Apifox 同步结论
+## 六、待确认项
 
-- 是否涉及 API 变更：是 / 否
+-
+
+## 七、Apifox 录入结论
+
 - 需要新增接口：
 - 需要修改接口：
 - 需要删除接口：
 - 需要新增 / 修改数据模型：
-- 需要同步权限说明：是 / 否
-- 需要同步错误码：是 / 否
-- 需要补充 Mock：是 / 否
-- 需要补充测试用例：是 / 否
+- 需要同步权限说明：是 / 否 / 待确认
+- 需要同步错误码：是 / 否 / 待确认
+- 需要补充 Mock：是 / 否 / 待确认
+- 需要补充测试用例：是 / 否 / 待确认

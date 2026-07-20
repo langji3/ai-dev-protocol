@@ -14,7 +14,7 @@ AI Dev Protocol 是一套面向小型团队的轻量 AI 辅助开发插件：它
 - `.claude-plugin/plugin.json` 声明 Claude Code plugin 元数据。
 - `skills/` 下每个子目录都是一个小而聚焦的 workflow skill。
 - `ai-dev-protocol` 是唯一建议用户主动触发的主入口和路由 skill。
-- 其他 `ai-*` skills 分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 同步。
+- 其他 `ai-*` skills 分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 录入清单 / 同步。
 
 设计原则见 `docs/design-principles.md`，常见使用方式见 `docs/usage-scenarios.md`。
 
@@ -78,7 +78,7 @@ ai-apifox-sync
 13. 最终交付必须包含测试/验证说明。
 14. AI 验证完成后 squash merge 回开发者分支。
 15. 最终由开发者主导 review、联调、检查和后续合并。
-16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型」。
+16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」；用户也可以单独要求从需求、spec、diff 或变更说明中抽取 Apifox 录入清单。
 
 ## 轻量插件原则
 
@@ -146,6 +146,7 @@ ai-dev-protocol/
       SKILL.md
       templates/
         apifox-sync-summary.md
+        apifox-entry-catalog.md
 
   adapters/
     codex/
@@ -174,7 +175,7 @@ ai-dev-protocol/
 9. 提交规则：使用 `ai-commit-rules` 检查中文 commit message，并按 `feat:` / `fix:` 分类。
 10. Merge-back：使用 `ai-merge-back` 将 AI 分支 squash merge 回开发者分支。
 11. 最终交付：使用 `ai-handoff` 输出变更摘要、spec 文档和提交状态、本地 plan 执行状态、分支状态、merge-back 状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。
-12. API 变更：使用 `ai-apifox-sync` 输出 Apifox sync summary。
+12. API / Apifox：使用 `ai-apifox-sync` 输出 Apifox sync summary；当用户需要录入 Apifox 时，抽取受影响接口、请求侧模型 JSON Schema（Path / Query / Headers / Cookies / Body）、响应模型 JSON Schema、枚举、错误码和权限清单。
 
 ### 状态恢复
 
@@ -186,7 +187,7 @@ AI Dev Protocol 必须能从中途继续，而不是假设所有任务都从零�
 - plan 已存在：继续使用 `docs/plans/` 下对应 spec 的未追踪本地 plan；如不存在，按当前 spec 创建。
 - 已实现未提交：先做范围检查和验证，再按提交规则处理。
 - 已提交未 merge-back：记录验证状态，按 `ai-merge-back` 处理。
-- API 已变更但未整理：补充 Apifox sync summary，必要时输出可录入的接口清单和数据模型。
+- API 已变更但未整理：补充 Apifox sync summary；当用户需要录入 Apifox 时，输出可录入的接口清单和数据模型 JSON Schema。
 
 ### 对话式需求入口
 
@@ -268,5 +269,5 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 4. AI 能稳定做到一需求一工作单元、一 spec 一范围。
 5. 开发者分支支持多个 AI 分支并行开发并 squash merge 回开发者分支。
 6. 单一小型团队流程完整走通 spec 文档提交、本地 plan 未追踪、实现提交、验证审查、squash merge-back 和 handoff。
-7. 最终交付包含验证结果、spec 文档状态、plan/goals 完成情况、subagent / 独立审查或替代自检结果，API 变更包含 Apifox sync summary。
+7. 最终交付包含验证结果、spec 文档状态、plan/goals 完成情况、subagent / 独立审查或替代自检结果，API 变更包含 Apifox sync summary；需要录入 Apifox 时可输出接口清单和数据模型 JSON Schema 清单。
 8. 开发者在开发者分支上主导 review、联调、检查和后续合并。

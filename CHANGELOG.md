@@ -8,6 +8,20 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [0.4.0] - 2026-07-20
+
+### Added
+
+- Added an Apifox entry catalog capability to extract affected interfaces and data models from requirements, specs, diffs, handoffs, or change descriptions.
+- Added `skills/ai-apifox-sync/templates/apifox-entry-catalog.md` for Apifox-ready interface/model checklists.
+
+### Changed
+
+- Expanded `ai-apifox-sync` from API sync summaries to Apifox-ready catalog generation.
+- Required JSON Schema blocks for every data model in Apifox entry catalogs, including request-side Path, Query, Header, Cookie, and Body schemas.
+- Updated README, adapters, handoff, usage scenarios, and plugin metadata for Apifox catalog extraction.
+- Updated plugin metadata to version `0.4.0`.
+
 ## [0.3.0] - 2026-07-14
 
 ### Added

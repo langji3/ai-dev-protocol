@@ -31,7 +31,7 @@ Codex 中本协议拆分为多个 skills：
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：squash merge 回开发者分支。
 - `ai-handoff`：最终交付、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证说明和开发者接管说明。
-- `ai-apifox-sync`：API 变更后的 Apifox sync summary。
+- `ai-apifox-sync`：API 变更后的 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
 其他 AI 工具可以按同样阶段执行。
 
@@ -51,7 +51,7 @@ Codex 中本协议拆分为多个 skills：
 14. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
 15. AI 验证完成后 squash merge 回开发者分支。
 16. 最终由开发者主导 review、联调、检查和后续合并。
-17. 如有 API 变更，最终交付必须包含 Apifox sync summary。
+17. 如有 API 变更，最终交付必须包含 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。
 
 ## 标准流程
 
@@ -64,7 +64,7 @@ Codex 中本协议拆分为多个 skills：
 7. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
 8. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
 9. Merge-back：squash merge 回开发者分支。
-10. 最终交付：输出变更摘要、分支状态、merge-back 状态、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary。
+10. 最终交付：输出变更摘要、分支状态、merge-back 状态、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。
 
 自然语言的模块设计讨论如果可能进入代码实现，也从需求进入开始执行。用户确认开发者分支只确认第 2 步，下一步仍是中文 spec，不得直接写代码。
 

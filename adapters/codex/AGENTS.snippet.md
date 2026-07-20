@@ -20,7 +20,7 @@ AI 不应直接在主干或环境分支上实现，除非用户明确确认它�
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
 - `ai-merge-back`：squash merge 回开发者分支。
 - `ai-handoff`：最终交付、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证说明和开发者接管说明。
-- `ai-apifox-sync`：API 变更后的 Apifox sync summary。
+- `ai-apifox-sync`：API 变更后的 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
 如果这些 skills 由 Codex plugin 加载，名称可能显示为 `ai-dev-protocol:<skill-name>`。
 
