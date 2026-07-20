@@ -21,6 +21,7 @@ Expected behavior:
 - Create an ignored local plan under `docs/plans/{yyyyMMdd}-{short-desc}-plan.md`, using the corresponding spec basename.
 - Implement within the confirmed scope.
 - Verify, review, commit, and prepare merge-back.
+- Report merge readiness and wait for explicit developer approval before modifying the developer branch.
 
 ## 2. Continue An Existing AI Branch
 
@@ -134,3 +135,27 @@ Expected behavior:
 - Report spec path, local plan state, implementation commit state, verification, review, risks, and merge-back status.
 - State that the developer owns final review, self-test, integration testing, PR, merge, and follow-up.
 - Include Apifox sync summary when API behavior changed.
+
+## 9. Developer Approval Before Merge-back
+
+User says after reviewing the completion summary:
+
+```text
+先不要合回我的开发分支。
+```
+
+Expected behavior:
+
+- Keep the implementation and commits on the `ai/...` branch.
+- Mark merge-back as `未授权` or `已取消`.
+- Leave the developer branch untouched; do not switch to it, merge, cherry-pick, commit, reset, restore, or rebase it.
+- Report the exact AI branch, target developer branch, verification result, and pending commits.
+- Ask for merge-back authorization only when the developer is ready.
+
+When implementation is ready, the dedicated question should name both branches:
+
+```text
+实现和验证已完成，是否同意将 ai/... squash merge 回 developer/...？
+```
+
+Spec confirmation, implementation approval, or a vague earlier `ok` must not be reused as merge-back authorization.

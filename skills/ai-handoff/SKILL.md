@@ -12,6 +12,7 @@ Use for final delivery.
 - 变更摘要
 - 分支状态
 - Merge-back 状态
+- Merge-back 授权状态：未请求 / 等待开发者授权 / 已授权 / 已拒绝 / 已取消
 - spec 文档路径、spec 提交状态、本地 plan 执行状态、plan 未追踪状态、实现提交状态
 - 实现范围记录：改了什么、为什么属于本次范围
 - 范围变化说明：无变化，或说明新增/移除的范围及确认状态
@@ -25,6 +26,8 @@ Use for final delivery.
 - 如果涉及 API 变更，交付末尾主动询问用户是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」
 
 Use `templates/handoff-summary.md` when structure helps.
+
+When merge-back has not been explicitly approved, deliver from the AI branch, state that the developer branch is untouched, and ask the dedicated merge-back authorization question. Do not describe pending approval as a blocker or infer approval from spec confirmation.
 
 ## Verification Blocker
 

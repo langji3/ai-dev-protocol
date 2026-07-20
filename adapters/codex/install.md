@@ -58,6 +58,6 @@ ai-apifox-sync
 - 使用 `ai-spec-writing` 写中文 spec，并创建提交 `docs/specs/*.md`。
 - 在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md` 创建对应 spec 的本地 plan，并确认它被忽略且未被 Git 追踪。
 - 在 AI 分支提交实现改动，并在交付中说明实现提交状态。
-- 使用 `ai-merge-back` squash merge 回开发者分支。
+- 使用 `ai-merge-back` 汇报准备状态并单独请求授权，只有开发者明确同意后才 squash merge 回开发者分支。
 - 使用 `ai-handoff` 在交付时包含 spec 文档状态、本地 plan 状态、实现提交状态、验证结果、merge-back 状态和开发者接管说明。
 - API 变更时使用 `ai-apifox-sync` 输出 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。

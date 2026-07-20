@@ -58,7 +58,7 @@ AI Dev Protocol owns the workflow gates. Optional tools and borrowed methods can
 
 - One obvious entry: users should normally trigger `ai-dev-protocol`.
 - Small phase skills: each skill owns one stage and stays concise.
-- Visible gates: branch source, spec confirmation, implementation start, commit, and merge-back should be explicit.
+- Visible gates: branch source, spec confirmation, implementation start, commit, and merge-back should be explicit; merge-back requires its own developer authorization after implementation and verification reporting.
 - Recoverable state: the plugin should inspect current branch, Git status, spec, plan, and commits before deciding the next step.
 - Minimal artifacts: committed files should be specs, code, tests, docs, and intentional templates; local plans stay ignored.
 - Unified paths: committed specs live in `docs/specs/`; local execution plans live only in ignored `docs/plans/` and use the corresponding spec basename.

@@ -2,7 +2,7 @@
 
 AI Dev Protocol is a team workflow protocol for AI-assisted software development.
 
-AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：开发者分支作为需求汇总站，每个 AI 工作单元创建独立 `ai/...` 分支，完成后 squash merge 回开发者分支。
+AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：开发者分支作为需求汇总站，每个 AI 工作单元创建独立 `ai/...` 分支，完成后先汇报并取得开发者明确授权，再 squash merge 回开发者分支。
 
 ## 使用场景
 
@@ -29,7 +29,7 @@ Codex 中本协议拆分为多个 skills：
 - `ai-spec-writing`：中文 spec 和实现前确认；spec 写入并提交到 `docs/specs/*.md`。
 - `ai-implementation-scope`：范围控制、`docs/plans/` 本地临时 plan、plan/goals 拆分和独立审查，禁止无关改动。
 - `ai-commit-rules`：中文 `feat:` / `fix:` commit。
-- `ai-merge-back`：squash merge 回开发者分支。
+- `ai-merge-back`：汇报 merge-back 准备状态，取得开发者明确授权后才 squash merge 回开发者分支。
 - `ai-handoff`：最终交付、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证说明和开发者接管说明。
 - `ai-apifox-sync`：API 变更后的 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
@@ -49,7 +49,7 @@ Codex 中本协议拆分为多个 skills：
 12. spec 确认后先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals 并随着推进更新状态；极小改动可使用轻量 plan。
 13. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
 14. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
-15. AI 验证完成后 squash merge 回开发者分支。
+15. AI 验证完成后单独请求 merge-back 授权；spec 确认不代表合回授权，未明确同意时不得修改开发者分支。
 16. 最终由开发者主导 review、联调、检查和后续合并。
 17. 如有 API 变更，最终交付必须包含 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。
 
@@ -63,10 +63,12 @@ Codex 中本协议拆分为多个 skills：
 6. 实现计划与审查：先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals；复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。可以借鉴 Superpowers 中轻量有效的上下文控制、goal 拆分、范围守卫和独立审查方法，但不提交 plan 或创建 `.superpowers/` 产物。
 7. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
 8. 提交规则：commit message 使用中文，并按 `feat:` / `fix:` 分类。
-9. Merge-back：squash merge 回开发者分支。
+9. Merge-back：先汇报实现、验证、目标分支和拟用提交信息，明确询问并取得开发者授权后才 squash merge。
 10. 最终交付：输出变更摘要、分支状态、merge-back 状态、spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。若有 API 变更，附 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。
 
 自然语言的模块设计讨论如果可能进入代码实现，也从需求进入开始执行。用户确认开发者分支只确认第 2 步，下一步仍是中文 spec，不得直接写代码。
+
+用户确认 spec 只授权进入实现，不授权 merge-back。实现和验证完成后必须单独询问是否同意合回；未明确同意时停留在 AI 分支，不得修改、重置或恢复开发者分支。
 
 ## 权威规则
 

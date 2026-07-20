@@ -48,7 +48,8 @@ Did AI record implementation scope and any scope changes explicitly?
 Did AI split implementation into plan/goals and update progress?
 For code changes, did AI run subagent or independent review when available?
 Did AI run or explain verification?
-Did AI squash merge back to the developer branch?
+Did AI request and receive explicit developer approval before merge-back?
+Did AI leave the developer branch untouched when merge-back was not approved?
 Did final delivery include risks and follow-up notes?
 If API changed, did final delivery include Apifox sync summary?
 If the user asked for Apifox entry, did AI extract the affected interface catalog and provide JSON Schema for every affected data model?
@@ -108,6 +109,7 @@ Before publishing a new version:
 [ ] Templates still live under the skill that uses them.
 [ ] Local plan paths under `docs/plans/` are ignored and not tracked.
 [ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
+[ ] Merge-back requires a dedicated developer authorization after implementation and verification reporting.
 [ ] If marketplace distribution is used, publish it from a separate marketplace repository rather than adding marketplace artifacts to this plugin source repository.
 [ ] CHANGELOG.md has an entry for the release.
 [ ] A realistic trial prompt has been run or manually simulated.
@@ -145,7 +147,13 @@ Expected: AI should ask what requirement is being changed, check branch workflow
 我在 developer/zhangsan 分支，帮我并行启动一个订单状态筛选需求。
 ```
 
-Expected: AI should create or suggest an `ai/...` branch from the developer branch, commit `docs/specs/*.md`, create the corresponding ignored local plan under `docs/plans/`, complete the requirement there, and use `ai-merge-back` to squash merge back after verification.
+Expected: AI should create or suggest an `ai/...` branch from the developer branch, commit `docs/specs/*.md`, create the corresponding ignored local plan under `docs/plans/`, complete the requirement there, and use `ai-merge-back` to report readiness and request explicit authorization before squash merging.
+
+```text
+规格没问题，开始开发。完成后先别合回我的开发分支。
+```
+
+Expected: AI should treat spec confirmation as implementation approval only. After implementation and verification, it should report merge readiness from the AI branch and leave the developer branch untouched until the developer explicitly approves that specific merge-back.
 
 ```text
 我现在要进行项目公告模块的设计，目前我们的想法有：公告分紧急、重要、一般三种程度。紧急不管已读未读都弹出来，重要未读才弹出来，一般不弹。前端 Markdown 显示，后端直接输入 Markdown。

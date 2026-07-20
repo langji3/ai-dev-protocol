@@ -37,6 +37,6 @@
 - 创建并提交 `docs/specs/*.md`。
 - 在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md` 创建对应 spec 的本地 plan，并确认它被忽略且未被 Git 追踪。
 - 在 AI 分支提交实现改动，并说明实现提交状态。
-- squash merge 回开发者分支。
+- 汇报 merge-back 准备状态，单独取得开发者明确授权后才 squash merge 回开发者分支。
 - 交付 spec 文档状态、本地 plan 状态、实现提交状态、merge-back 状态和开发者接管事项。
 - 若涉及 API 变更，确认包含 Apifox sync summary；用户需要录入 Apifox 时，确认包含接口清单和数据模型 JSON Schema 清单。

@@ -14,7 +14,7 @@ alwaysApply: false
 开发者分支工作流：AI 在实现前先确认当前开发者分支或已有 `ai/...` 分支。
 
 - 开发者分支：如果当前分支是开发者汇总分支，例如 `developer/<name>`、`dev/<name>`、`<name>/dev`，或用户明确指定的团队开发者汇总分支，每个明确需求从该分支创建一个 `ai/...` 分支。
-- AI 分支：AI 先提交 `docs/specs/*.md`，再在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，完成实现和验证后 squash merge 回开发者分支。
+- AI 分支：AI 先提交 `docs/specs/*.md`，再在 `docs/plans/` 创建对应 spec 的未追踪本地 plan；完成实现和验证后先汇报，取得开发者对本次 merge-back 的明确授权后才能 squash merge 回开发者分支。
 - 分支含义不明确时，AI 必须先询问当前分支是否作为开发者分支使用。
 
 核心规则：
@@ -34,7 +34,7 @@ alwaysApply: false
 - 不混入无关重构、格式化、依赖升级或 workflow 产物。
 - 可以借鉴 Superpowers 中轻量有效的上下文控制、goal 拆分、范围守卫和独立审查方法，但 plan 是本地临时执行文件，不得进入 Git 追踪；不得创建 `.superpowers/` 产物，除非用户明确要求。
 - commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
-- AI 验证后 squash merge 回开发者分支。
+- AI 验证后汇报 merge-back 准备状态并单独请求授权；spec 确认不代表合回授权，未明确同意时不得修改开发者分支。
 - 最终交付包含 spec 文档路径、spec 提交状态、本地 plan Git 状态、实现提交状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、merge-back 状态和开发者接管说明；API 变更包含 Apifox sync summary；用户需要录入 Apifox 时，抽取受影响接口和数据模型 JSON Schema 清单。
 
 阶段对应关系：

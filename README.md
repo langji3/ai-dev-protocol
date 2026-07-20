@@ -37,7 +37,7 @@ dev/<name>
 - 一个 `ai/...` 分支只处理一个明确需求。
 - AI 在 `ai/...` 分支上先提交 `docs/specs/{yyyyMMdd}-{short-desc}.md` 需求 spec，用户确认后再创建本地临时 plan。
 - 本地 plan 统一放在 `docs/plans/{yyyyMMdd}-{short-desc}-plan.md`，文件名参考对应 spec，用于拆分 goals 和跟踪执行；该目录必须被 `.gitignore` 忽略，不进入 Git 追踪。
-- AI 完成实现、验证、独立审查和提交后，默认 squash merge 回开发者分支。
+- AI 完成实现、验证、独立审查和提交后，先汇报结果并单独请求 merge-back 授权；只有开发者明确同意后，才 squash merge 回开发者分支。
 - 开发者在开发者分支上主导 review、联调、检查和后续合并。
 - AI 在 merge-back 后转为辅助身份：解释变更、修 review 问题、补测试、整理 Apifox 摘要。
 
@@ -76,7 +76,7 @@ ai-apifox-sync
 11. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
 12. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
 13. 最终交付必须包含测试/验证说明。
-14. AI 验证完成后 squash merge 回开发者分支。
+14. AI 验证完成后汇报 merge-back 准备状态；规格确认和开发授权不等于合回授权，必须取得开发者对本次 merge-back 的明确同意后才能修改开发者分支。
 15. 最终由开发者主导 review、联调、检查和后续合并。
 16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」；用户也可以单独要求从需求、spec、diff 或变更说明中抽取 Apifox 录入清单。
 
@@ -173,7 +173,7 @@ ai-dev-protocol/
 7. 实现计划与审查：按本地 plan 拆分 plan/goals，复杂任务优先使用 subagent / 多 AI 做独立审查，不可用时记录替代自检。
 8. 验证：根据项目情况运行测试、构建、静态检查，不能运行时要说明原因。
 9. 提交规则：使用 `ai-commit-rules` 检查中文 commit message，并按 `feat:` / `fix:` 分类。
-10. Merge-back：使用 `ai-merge-back` 将 AI 分支 squash merge 回开发者分支。
+10. Merge-back：使用 `ai-merge-back` 汇报实现与验证结果，单独请求开发者授权；明确同意后才将 AI 分支 squash merge 回开发者分支。
 11. 最终交付：使用 `ai-handoff` 输出变更摘要、spec 文档和提交状态、本地 plan 执行状态、分支状态、merge-back 状态、实现范围记录、范围变化说明、plan/goals 完成情况、subagent / 独立审查情况、验证结果、风险说明和开发者接管说明。
 12. API / Apifox：使用 `ai-apifox-sync` 输出 Apifox sync summary；当用户需要录入 Apifox 时，抽取受影响接口、请求侧模型 JSON Schema（Path / Query / Headers / Cookies / Body）、响应模型 JSON Schema、枚举、错误码和权限清单。
 
@@ -186,7 +186,7 @@ AI Dev Protocol 必须能从中途继续，而不是假设所有任务都从零�
 - spec 已存在：读取并确认是否仍是当前需求范围。
 - plan 已存在：继续使用 `docs/plans/` 下对应 spec 的未追踪本地 plan；如不存在，按当前 spec 创建。
 - 已实现未提交：先做范围检查和验证，再按提交规则处理。
-- 已提交未 merge-back：记录验证状态，按 `ai-merge-back` 处理。
+- 已提交未 merge-back：记录验证状态，按 `ai-merge-back` 汇报并等待开发者明确授权；未授权时停留在 AI 分支。
 - API 已变更但未整理：补充 Apifox sync summary；当用户需要录入 Apifox 时，输出可录入的接口清单和数据模型 JSON Schema。
 
 ### 对话式需求入口
@@ -199,6 +199,7 @@ AI Dev Protocol 必须能从中途继续，而不是假设所有任务都从零�
 - spec 确认后必须创建本地临时 plan，确认 plan 未被 Git 追踪，再进入实现。
 - 只有在当前工作流里确认过中文 spec 后，AI 才能进入实现或修改文件。
 - 如果实现中发现影响区域变化，AI 必须说明新增或移除的范围，并在最终交付中记录。
+- spec 确认只授权按规格开发，不授权 merge-back；合回开发者分支必须在实现和验证汇报后再次明确询问。
 
 ## 安装方式
 
@@ -267,7 +268,7 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 2. Codex 能以 plugin 方式读取多个 workflow skills。
 3. Claude Code 和 Cursor 能通过适配文件读取核心规则。
 4. AI 能稳定做到一需求一工作单元、一 spec 一范围。
-5. 开发者分支支持多个 AI 分支并行开发并 squash merge 回开发者分支。
-6. 单一小型团队流程完整走通 spec 文档提交、本地 plan 未追踪、实现提交、验证审查、squash merge-back 和 handoff。
+5. 开发者分支支持多个 AI 分支并行开发，并在开发者逐次明确授权后 squash merge 回开发者分支。
+6. 单一小型团队流程完整走通 spec 文档提交、本地 plan 未追踪、实现提交、验证审查、merge-back 授权、squash merge-back 和 handoff。
 7. 最终交付包含验证结果、spec 文档状态、plan/goals 完成情况、subagent / 独立审查或替代自检结果，API 变更包含 Apifox sync summary；需要录入 Apifox 时可输出接口清单和数据模型 JSON Schema 清单。
 8. 开发者在开发者分支上主导 review、联调、检查和后续合并。

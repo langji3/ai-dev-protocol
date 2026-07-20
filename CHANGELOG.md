@@ -8,6 +8,15 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [1.0.0] - 2026-07-20
+
+### Changed
+
+- Made merge-back a separate developer authorization gate after implementation and verification reporting.
+- Prevented spec confirmation, implementation approval, or vague earlier consent from being reused as merge-back authorization.
+- Required AI to leave the developer branch untouched when merge-back is unapproved, rejected, or cancelled.
+- Updated plugin metadata to version `1.0.0` for the hard-gate behavior change.
+
 ## [0.4.0] - 2026-07-20
 
 ### Added

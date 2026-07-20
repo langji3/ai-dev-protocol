@@ -16,7 +16,7 @@ AI Dev Protocol is a lightweight team workflow plugin. It owns requirement clari
 3. `ai-spec-writing`: write and confirm Chinese spec.
 4. `ai-implementation-scope`: implement within confirmed scope.
 5. `ai-commit-rules`: prepare/review Chinese `feat:` / `fix:` commits.
-6. `ai-merge-back`: squash merge `ai/...` back to the developer branch.
+6. `ai-merge-back`: report merge readiness, request explicit developer approval, then squash merge `ai/...` back only after approval.
 7. `ai-handoff`: final delivery.
 8. `ai-apifox-sync`: API changes, Apifox sync summaries, and Apifox-ready interface/model catalogs.
 
@@ -39,7 +39,7 @@ After those steps, continue to the next gate in the flow.
 
 ## Branch Workflow
 
-- Developer branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`, commit a requirement spec under `docs/specs/`, create the corresponding ignored local plan under `docs/plans/`, implement, verify, and squash merge back.
+- Developer branch: create `ai/{yyyyMMdd}-{developer}-{short-desc}`, commit a requirement spec under `docs/specs/`, create the corresponding ignored local plan under `docs/plans/`, implement, verify, report readiness, and wait for explicit merge-back approval.
 - Existing `ai/...`: continue work; identify source developer branch.
 - Trunk/environment branch: stop unless the user explicitly says this branch is their developer aggregation branch.
 - Ambiguous branch: ask before editing.
@@ -68,6 +68,13 @@ Before delivery:
 - Developer takeover is stated.
 - API changes include Apifox sync summary, and Apifox-ready catalogs when requested.
 
+Before merge-back:
+
+- Report the completed implementation, verification, risks, AI branch, target developer branch, and proposed squash commit message.
+- Ask the developer whether this specific AI branch may be merged back.
+- Treat this as a new authorization gate. Spec confirmation and implementation approval do not carry forward to merge-back.
+- Without an explicit affirmative answer, remain on the AI branch and leave the developer branch untouched.
+
 ## Recovery Mode
 
 Do not assume the workflow starts from zero. Before deciding the next phase, infer current state:
@@ -84,4 +91,5 @@ Do not assume the workflow starts from zero. Before deciding the next phase, inf
 - Code identifiers, API paths, table names, config keys, commands, and file paths stay English.
 - No unrelated refactor, formatting sweep, dependency upgrade, tracked plan file, `.superpowers/`, or external workflow artifact unless explicitly requested.
 - Implementation may borrow selected Superpowers-style methods: context hygiene, goal decomposition, step-by-step progress, scope guard, and independent review. Create an ignored local plan file for execution; do not create `.superpowers/` files or hidden workflow artifacts.
+- Never merge, squash merge, cherry-pick, or commit implementation onto the developer branch without explicit developer approval for that specific merge-back.
 - Developer owns final review, self-test, integration testing, PR, merge, and code quality.
