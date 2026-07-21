@@ -8,7 +8,7 @@
 .claude-plugin/plugin.json
 ```
 
-它用于声明 `ai-dev-protocol` 作为 Claude Code 可识别的插件源码。实际团队安装方式可由团队的 Claude Code 插件市场或项目接入规范决定。
+它用于声明 `ai-dev-protocol` 作为 Claude Code 可识别的插件源码。根目录 `skills/` 只包含主 Router，阶段规则作为 Router 内部资源放在 `skills/ai-dev-protocol/phases/`。实际团队安装方式可由团队的 Claude Code 插件市场或项目接入规范决定。
 
 ## 接入项目
 
@@ -25,11 +25,11 @@
 - 业务、架构、代码风格规则以项目规则为准。
 - 需求澄清、开发者分支工作流、spec、范围控制、提交和交付流程以 AI Dev Protocol 为准。
 
-完整规则以本仓库 `skills/` 下各阶段 `SKILL.md` 为准，尤其是 `ai-branch-workflow`、`ai-merge-back` 和 `ai-handoff` 中的开发者分支确认、merge-back 和开发者接管规则。
+完整规则以主 Router 和 `skills/ai-dev-protocol/phases/` 下的内部阶段规则为准，尤其是 Quick Fix 分类、`ai-branch-workflow`、`ai-merge-back` 和 `ai-handoff` 中的开发者分支确认、merge-back 和开发者接管规则。
 
 ## 验证
 
-让 Claude Code 处理一个小型需求，确认它会先澄清需求、确认开发者分支、写中文 spec，并在最终交付中列出验证结果。
+分别让 Claude Code 处理一个低风险小修改和一个完整需求，确认它只暴露主 Router，并先进行路径分类。小修改经用户接受后直接修改并由用户验证；完整需求才执行以下流程。
 
 确认它会：
 

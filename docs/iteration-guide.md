@@ -36,6 +36,9 @@ Tool:
 Date:
 
 Did AI clarify the requirement before implementation?
+Did the Router classify Quick Fix Path versus Full Development Flow before creating artifacts?
+For a Quick Fix, did the user accept the quick modification and retain final verification ownership?
+Did API/schema, database, auth/security, dependency/build, cross-module, release, or branch-integration changes avoid the Quick Fix Path?
 Did AI keep one requirement per branch?
 Did AI create or request the correct AI branch?
 Did AI identify the developer branch or existing AI branch correctly?
@@ -59,7 +62,7 @@ Which skill should change?
 What exact wording or checklist item would prevent this next time?
 ```
 
-Use the answer to change the smallest relevant skill.
+Use the answer to change the smallest relevant phase module or Router rule.
 
 ## Choosing Where To Change
 
@@ -76,22 +79,24 @@ Change an existing skill when the behavior belongs to an existing phase:
 - Apifox entry catalog: `ai-apifox-sync`
 - Routing between phases: `ai-dev-protocol`
 
-Create a new skill only when the workflow is a distinct reusable phase, such as:
+Create a new internal phase module only when the workflow is a distinct reusable phase, such as:
 
 - `ai-db-migration`
 - `ai-pr-review`
 - `ai-release-check`
 - `ai-security-review`
 
-Do not create a new skill for a single sentence rule that naturally belongs to an existing phase.
+Do not create a new phase module for a single sentence rule that naturally belongs to an existing phase. Do not add another root skill unless users need an independent public entry point.
 
 ## Skill Authoring Rules
 
 - Folder name must match `SKILL.md` frontmatter `name`.
 - Frontmatter should contain only `name` and `description`.
-- Put triggering conditions in `description`, because Codex sees it before loading the skill body.
+- Put public triggering conditions in the Router `description`, because platforms see it before loading the body; internal phase descriptions should state when the Router selects that module.
+- Keep only the public Router directly under root `skills/`; put phase rules under the Router's `phases/` resources so Codex and Claude do not auto-discover competing entries.
+- Give the public Router a valid `agents/openai.yaml` whose default prompt explicitly references `$ai-dev-protocol`.
 - Write the body as operational guidance: gates, process, checklist, and handoff.
-- Keep templates under the skill that uses them.
+- Keep templates under the phase module that uses them.
 - Keep repository documentation such as README, changelog, install notes, and iteration notes outside individual skill folders.
 
 ## Release Checklist
@@ -101,12 +106,14 @@ Before publishing a new version:
 ```text
 [ ] plugin.json is valid JSON.
 [ ] plugin.json version is updated when behavior or docs changed.
-[ ] Every skills/* directory has SKILL.md.
-[ ] Every SKILL.md frontmatter name matches its folder name.
-[ ] New or renamed skills are listed in README.md.
-[ ] Codex adapter mentions the current skill names.
+[ ] Root `skills/` contains only `ai-dev-protocol/` as a discoverable skill.
+[ ] Router and phase `SKILL.md` frontmatter names match their folder names.
+[ ] The Router has valid `agents/openai.yaml` and its default prompt references `$ai-dev-protocol`.
+[ ] Codex and Claude plugin discovery expose only the main Router.
+[ ] New or renamed phase modules are listed in README.md.
+[ ] Adapters mention the current Router and phase module names.
 [ ] Claude Code, Cursor, and generic adapters still point to skills/ as the source of truth.
-[ ] Templates still live under the skill that uses them.
+[ ] Templates still live under the phase module that uses them.
 [ ] Local plan paths under `docs/plans/` are ignored and not tracked.
 [ ] Branch mode and merge-back behavior are consistent across README, adapters, and skills.
 [ ] Merge-back requires a dedicated developer authorization after implementation and verification reporting.
@@ -124,6 +131,12 @@ Use these prompts to test behavior after changes:
 ```
 
 Expected: AI should clarify scope if missing details, then write a Chinese spec before implementation.
+
+```text
+这是一个小文案错字，直接快速改一下，我自己验证。
+```
+
+Expected: the Router should select the Quick Fix Path after confirming the edit is narrow and low risk, modify only the authorized current branch, create no AI branch/spec/plan/commit/merge-back, perform a focused self-check, and state that final verification belongs to the user.
 
 ```text
 帮我修一下用户接口返回字段，顺便把相关代码格式化一下。
@@ -171,7 +184,7 @@ Expected: AI should treat the design discussion as requirement intake, summarize
 那你再根据这个情况弄一下吧。
 ```
 
-Expected: AI should treat the reflection as a new protocol iteration requirement, create or select the correct AI branch, write and wait for a Chinese spec, then update the smallest relevant skills so implementation scope records and scope changes are explicit in both process output and final handoff.
+Expected: AI should treat the reflection as a new protocol iteration requirement, create or select the correct AI branch, write and wait for a Chinese spec, then update the smallest relevant phase modules so implementation scope records and scope changes are explicit in both process output and final handoff.
 
 ```text
 自身 AI 在实现的时候，应该先进行 plan 拆分多个 goal。如果能多 AI 协作就多 AI 协作，使用 subagent 来进行代码审查。代码实现方式可以参考 Superpowers 那种。
@@ -183,7 +196,14 @@ Expected: AI should write a Chinese spec before editing, then update implementat
 我发现，现在我们的工作流写 spec 是直接回复，但这样不行。每个需求都应该沉淀一份 spec md。plan 是本地临时执行文件，不进入 Git。我们先保证开发者分支流程完整走通。
 ```
 
-Expected: AI should treat this as a protocol iteration, create an `ai/...` branch from the developer branch, add and commit a `docs/specs/*.md` spec, wait for confirmation, create the corresponding ignored local plan under `docs/plans/`, ensure it is untracked, then update developer-branch workflow rules through implementation, review, commit, squash merge-back, and handoff.
+Expected: AI should treat this as a protocol iteration, create an `ai/...` branch from the developer branch, add and commit a `docs/specs/*.md` spec, wait for confirmation, create the corresponding ignored local plan under `docs/plans/`, ensure it is untracked, then update developer-branch workflow rules through implementation, review, and commit. It should report merge readiness, request explicit developer authorization, and squash merge back only after approval before final handoff.
+
+## Backlog
+
+- Add deterministic Codex and Claude manifest/skill validation commands and run them in CI.
+- Build a scenario/eval matrix covering Router classification, Quick Fix exclusions, spec gates, merge-back authorization, and Apifox JSON Schema completeness.
+- Add clean-install smoke tests for fresh Codex and Claude Code sessions, including checks that only the Router is discovered/user-facing.
+- Track prompt size and skill loading behavior so internal phase details remain discoverable without bloating the Router.
 
 ## Release Notes Style
 

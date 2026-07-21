@@ -2,7 +2,7 @@
 
 AI Dev Protocol is a team workflow protocol for AI-assisted software development.
 
-AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：开发者分支作为需求汇总站，每个 AI 工作单元创建独立 `ai/...` 分支，完成后先汇报并取得开发者明确授权，再 squash merge 回开发者分支。
+AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：Router 先选择 Quick Fix Path 或 Full Development Flow；完整流程中，开发者分支作为需求汇总站，每个 AI 工作单元创建独立 `ai/...` 分支，完成后先汇报并取得开发者明确授权，再 squash merge 回开发者分支。
 
 ## 使用场景
 
@@ -17,11 +17,11 @@ AI Dev Protocol 是一套面向小型团队的 AI 辅助开发流程规约：开
 - merge-back
 - 最终交付
 
-普通问答、代码解释、只读分析不需要强制执行完整流程。
+普通问答、代码解释、只读分析不需要强制执行完整流程。低风险小修改可由 Router 选择 Quick Fix Path。
 
 ## 阶段化 Workflow
 
-Codex 中本协议拆分为多个 skills：
+Codex 中本协议拆分为一个对外 Router skill 和多个打包在 Router 内的阶段模块：
 
 - `ai-dev-protocol`：总入口和路由。
 - `ai-requirement-intake`：需求澄清、一需求一工作单元。
@@ -37,23 +37,27 @@ Codex 中本协议拆分为多个 skills：
 
 ## 核心规则
 
-1. 一个 AI 工作单元只处理一个明确需求。
-2. AI 在动手前必须先确认需求范围。
-3. AI 在实现前先确认开发者分支，并从开发者分支创建独立 `ai/...` 分支。
-4. 用户确认开发者分支只表示分支来源确认，不表示允许实现。
-5. 实现前必须在当前工作流里输出中文 spec 并等待用户确认；spec 必须提交到 `docs/specs/*.md`。
-8. AI 不直接在主干或环境分支上实现。
+1. `ai-dev-protocol` 先选择 Quick Fix Path 或 Full Development Flow；无法确定时走完整流程。
+2. 用户明确接受快速修改，且范围小、风险低、不涉及 API / 数据库 / 权限安全 / 依赖构建 / 跨模块行为 / 发布版本 / 分支集成时，可直接修改用户授权的当前分支，不创建 AI 分支、spec、plan、提交或 merge-back；AI 做聚焦自检，用户最终验证。
+3. 完整流程中的一个 AI 工作单元只处理一个明确需求。
+4. AI 在动手前必须先确认需求范围。
+5. 完整流程实现前先确认开发者分支，并从开发者分支创建独立 `ai/...` 分支。
+6. 用户确认开发者分支只表示分支来源确认，不表示允许实现。
+7. 完整流程实现前必须在当前工作流里输出中文 spec 并等待用户确认；spec 必须提交到 `docs/specs/*.md`。
+8. 完整流程不直接在主干或环境分支上实现。
 9. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
 10. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
 11. 不混入无关重构、格式化、依赖变更。
-12. spec 确认后先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals 并随着推进更新状态；极小改动可使用轻量 plan。
+12. spec 确认后先在 `docs/plans/` 创建对应 spec 的未追踪本地 plan，再拆分 plan/goals 并随着推进更新状态。
 13. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
 14. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
 15. AI 验证完成后单独请求 merge-back 授权；spec 确认不代表合回授权，未明确同意时不得修改开发者分支。
 16. 最终由开发者主导 review、联调、检查和后续合并。
 17. 如有 API 变更，最终交付必须包含 Apifox sync summary；用户需要录入 Apifox 时，输出接口清单和数据模型 JSON Schema 清单。
 
-## 标准流程
+## 完整流程
+
+以下步骤只适用于 Full Development Flow：
 
 1. 需求进入：判断需求是否清楚，是否是一个独立 requirement。若范围不清，必须先提问。
 2. 分支判断：确认开发者分支、已有 AI 分支或停止在主干/环境分支。
@@ -72,4 +76,4 @@ Codex 中本协议拆分为多个 skills：
 
 ## 权威规则
 
-如果该通用文档与仓库中的 skill 规则不一致，以 `skills/` 下各 `SKILL.md` 为准。
+如果该通用文档与仓库中的规则不一致，以 `skills/ai-dev-protocol/SKILL.md` 及其 `phases/` 内部阶段规则为准。

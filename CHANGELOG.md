@@ -8,6 +8,26 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [2.0.0] - 2026-07-21
+
+### Added
+
+- Added a Router-first Quick Fix Path for user-approved, low-risk small edits, with user-owned final verification.
+- Added Codex Router interface metadata and bundled phase resources so Codex and Claude Code discover only the main skill.
+- Added cross-platform validation and scenario evaluation work to the iteration backlog.
+
+### Changed
+
+- Moved phase rules into bundled modules selected by `ai-dev-protocol` instead of competing public skill entries.
+- Kept API/schema, database, auth/security, dependency/build, cross-module, release, and branch-integration changes on the full workflow.
+- Aligned default prompts and trial expectations with the separate developer merge-back authorization gate.
+- Unified plugin authorship as `Langji` and updated plugin metadata to version `2.0.0`.
+
+### Migration Notes
+
+- Invoke `ai-dev-protocol` for normal work; phase rules now live under its bundled `phases/` resources and are not independent plugin skills.
+- Teams may use Quick Fix only when the user accepts it and every low-risk condition is satisfied; otherwise retain the full spec/plan/AI-branch flow.
+
 ## [1.0.0] - 2026-07-20
 
 ### Changed

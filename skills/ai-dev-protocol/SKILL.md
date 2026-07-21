@@ -1,15 +1,23 @@
 ---
 name: ai-dev-protocol
-description: Route AI-assisted development tasks through AI Dev Protocol. Use for coding tasks that need requirement clarification, developer-branch workflow selection, Chinese specs, scoped implementation, commits, merge-back, verified handoff, Apifox API sync summaries, or Apifox-ready interface/model catalogs.
+description: Route AI-assisted development tasks through AI Dev Protocol. Use for coding tasks that need quick low-risk edit classification, requirement clarification, developer-branch workflow selection, Chinese specs, scoped implementation, commits, merge-back, verified handoff, Apifox API sync summaries, or Apifox-ready interface/model catalogs.
 ---
 
 # AI Dev Protocol
 
-Entry skill. Use it to pick the next phase skill; keep detailed rules in phase skills.
+Public router skill. Users normally invoke only this skill. Treat bundled phase files under `phases/` as internal modules: after selecting a phase, read `phases/<phase>/SKILL.md` completely before acting.
 
 AI Dev Protocol is a lightweight team workflow plugin. It owns requirement clarity, branch gates, specs, scope control, commits, handoff, and API sync. It may borrow useful Superpowers-style working methods, but it must not inherit heavy hidden state, broad agent role systems, or `.superpowers/` artifacts.
 
-## Flow
+## Routing
+
+Classify the request before starting workflow artifacts:
+
+- Use the Quick Fix Path only when every quick-fix condition below is satisfied.
+- Use the Full Development Flow for features, non-trivial fixes, risky changes, or any uncertain classification.
+- Read only the internal phase modules needed for the selected path. Do not ask users to orchestrate phase modules themselves.
+
+## Full Development Flow
 
 1. `ai-requirement-intake`: clarify one independent requirement.
 2. `ai-branch-workflow`: detect developer branch, existing AI branch, or blocked branch.
@@ -20,10 +28,32 @@ AI Dev Protocol is a lightweight team workflow plugin. It owns requirement clari
 7. `ai-handoff`: final delivery.
 8. `ai-apifox-sync`: API changes, Apifox sync summaries, and Apifox-ready interface/model catalogs.
 
+## Quick Fix Path
+
+Use this path for a small, low-risk edit when the user explicitly asks for or accepts a quick modification.
+
+All conditions must hold:
+
+- The scope is narrow and well understood, normally limited to one or a few files.
+- The change does not alter API contracts or schemas, database migrations, authentication, authorization, security behavior, dependencies, build/CI configuration, release/versioning, destructive Git operations, cross-module behavior, or branch integration.
+- The current branch is safe and intended for the direct edit. Never infer permission to edit a trunk or environment branch; direct work there requires explicit user authorization.
+- Verification can reasonably be owned by the user after a focused AI self-check.
+
+On the Quick Fix Path:
+
+1. Confirm the exact small change and inspect the affected context.
+2. Edit directly on the current authorized branch with tight scope.
+3. Run a focused self-check when practical; do not claim user verification.
+4. Do not create an `ai/...` branch, committed spec, `docs/plans/` file, implementation commit, or merge-back unless the user explicitly requests one.
+5. Hand off the changed files and behavior, checks performed, residual risk, and a clear statement that final verification belongs to the user.
+
+If any exclusion appears or the scope grows, stop the Quick Fix Path and route the remaining work through the Full Development Flow.
+
 ## Product Principles
 
 - One obvious entry: users normally trigger only `ai-dev-protocol`.
-- Keep phase skills small; do not turn the plugin into a large general-purpose agent framework.
+- One routing owner: phase files are internal modules, not competing public entry points.
+- Keep phase modules small; do not turn the plugin into a large general-purpose agent framework.
 - Make gates visible: branch source, spec confirmation, implementation start, commit, merge-back, and handoff.
 - Recover from current state by inspecting branch, Git status, existing spec, local plan, and commits.
 - Keep temporary AI execution state out of business commits.
@@ -44,7 +74,9 @@ After those steps, continue to the next gate in the flow.
 - Trunk/environment branch: stop unless the user explicitly says this branch is their developer aggregation branch.
 - Ambiguous branch: ask before editing.
 
-## Gates
+## Full-Flow Gates
+
+These gates apply to the Full Development Flow, not the Quick Fix Path.
 
 Before implementation:
 
@@ -57,7 +89,7 @@ Before implementation:
 - The AI branch has an ignored local plan at `docs/plans/{yyyyMMdd}-{short-desc}-plan.md`, using the corresponding spec basename; the plan must not be tracked by Git.
 - If the user only confirmed the developer branch, that confirms branch source only; next step is `ai-spec-writing`, not implementation.
 
-Before delivery:
+Before full-flow delivery:
 
 - Spec document path, spec commit status, local plan execution status, implementation commit status, and merge-back status are recorded.
 - Verification ran, or blocker is stated.
@@ -84,6 +116,7 @@ Do not assume the workflow starts from zero. Before deciding the next phase, inf
 - Spec status: missing, present but unconfirmed, confirmed, or stale.
 - Local plan status: missing, present and ignored under `docs/plans/`, or incorrectly tracked / misplaced.
 - API sync status: no API change, summary needed, Apifox entry catalog requested, or Apifox-ready list completed.
+- Path status: Quick Fix Path still qualifies, or the task must continue through the Full Development Flow.
 
 ## Global Rules
 

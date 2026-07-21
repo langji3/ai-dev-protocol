@@ -12,13 +12,22 @@ AI Dev Protocol 是一套面向小型团队的轻量 AI 辅助开发插件：它
 
 - `.codex-plugin/plugin.json` 声明 Codex plugin。
 - `.claude-plugin/plugin.json` 声明 Claude Code plugin 元数据。
-- `skills/` 下每个子目录都是一个小而聚焦的 workflow skill。
-- `ai-dev-protocol` 是唯一建议用户主动触发的主入口和路由 skill。
-- 其他 `ai-*` skills 分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 录入清单 / 同步。
+- `skills/` 下只放一个可发现的 Router skill。
+- `ai-dev-protocol` 是唯一面向用户和允许隐式触发的 Router skill。
+- 其他 `ai-*` 阶段规则放在 Router 的 `phases/` 资源目录，分别负责需求、分支、spec、范围控制、提交、merge-back、交付和 Apifox 录入清单 / 同步。
 
 设计原则见 `docs/design-principles.md`，常见使用方式见 `docs/usage-scenarios.md`。
 
-## 核心工作流
+## 两条执行路径
+
+Router 先判断任务应走哪条路径：
+
+- Quick Fix Path：用户明确要求或接受快速修改，且改动范围小、风险低，不涉及 API / 数据库 / 权限安全 / 依赖构建 / 跨模块行为 / 发布版本 / 分支集成。AI 可在用户明确授权的当前分支直接修改，不创建 AI 分支、spec、plan、提交或 merge-back；AI 做聚焦自检，最终由用户验证。
+- Full Development Flow：功能开发、非简单修复、高风险变更或无法确定风险的任务，执行下面的完整开发者分支流。
+
+Quick Fix 一旦出现范围扩大或风险项，立即停止轻量路径并切换到完整流程。
+
+## 完整开发流程
 
 AI Dev Protocol 面向小型团队的开发者分支流：
 
@@ -43,12 +52,17 @@ dev/<name>
 
 AI 不应直接在主干或环境分支上实现，除非用户明确确认当前分支就是本团队的开发者汇总分支。即使当前开发者分支名是 `main`，也仍然按“开发者分支 -> AI 分支 -> squash merge-back”的流程执行。
 
-## Codex 安装后的 Skills
+## Plugin 入口与内部阶段
 
-Codex 以 plugin 形式安装后，会从 `skills/` 加载多个 workflow skills：
+Codex 和 Claude Code 安装 plugin 后只发现一个主 Router：
 
 ```text
 ai-dev-protocol
+```
+
+Router 按需读取自身 `phases/` 下的内部阶段模块：
+
+```text
 ai-requirement-intake
 ai-branch-workflow
 ai-spec-writing
@@ -59,26 +73,28 @@ ai-handoff
 ai-apifox-sync
 ```
 
-在 Codex plugin 环境中，它们可能显示为带插件前缀的名称，例如 `ai-dev-protocol:ai-spec-writing`。
+阶段模块不是独立 plugin skills，不会参与平台自动发现，也不要求用户选择。`agents/openai.yaml` 仅描述主 Router。
 
 ## 核心目标
 
-1. 一个 AI 工作单元只处理一个明确需求。
-2. AI 在动手前必须先确认需求范围。
-3. AI 在实现前先确认开发者分支，并从开发者分支创建独立 `ai/...` 分支。
-4. AI 不直接在开发者分支、主干或环境分支上实现。
-5. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
-6. spec 必须沉淀为 `docs/specs/*.md` 并先提交。
-7. 开始实现前必须在 `docs/plans/` 创建本地临时 plan，并确认 plan 未被 Git 追踪。
-8. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
-9. 不混入无关重构、格式化、依赖变更。
-10. 实现阶段先拆分 plan/goals，并随着推进更新状态。
-11. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
-12. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
-13. 最终交付必须包含测试/验证说明。
-14. AI 验证完成后汇报 merge-back 准备状态；规格确认和开发授权不等于合回授权，必须取得开发者对本次 merge-back 的明确同意后才能修改开发者分支。
-15. 最终由开发者主导 review、联调、检查和后续合并。
-16. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」；用户也可以单独要求从需求、spec、diff 或变更说明中抽取 Apifox 录入清单。
+1. Router 先判断 Quick Fix Path 或 Full Development Flow；无法确定时走完整流程。
+2. Quick Fix 仅用于用户接受的低风险小修改，由用户完成最终验证。
+3. 完整流程中的一个 AI 工作单元只处理一个明确需求。
+4. AI 在动手前必须先确认需求范围。
+5. 完整流程实现前先确认开发者分支，并从开发者分支创建独立 `ai/...` 分支。
+6. 完整流程不直接在开发者分支、主干或环境分支上实现。
+7. spec 使用中文，代码标识符、API 路径、表名、配置键保持英文。
+8. spec 必须沉淀为 `docs/specs/*.md` 并先提交。
+9. 开始完整流程实现前必须在 `docs/plans/` 创建本地临时 plan，并确认 plan 未被 Git 追踪。
+10. commit message 使用中文，需求用 `feat:`，修改用 `fix:`。
+11. 不混入无关重构、格式化、依赖变更。
+12. 完整流程实现阶段先拆分 plan/goals，并随着推进更新状态。
+13. 复杂任务或代码变更优先使用 subagent / 多 AI 做独立审查；不可用时记录替代自检。
+14. 不提交被 Git 追踪的 plan 文件或 `.superpowers/` 工作流产物，除非明确要求。
+15. 最终交付必须包含测试/验证说明。
+16. AI 验证完成后汇报 merge-back 准备状态；规格确认和开发授权不等于合回授权，必须取得开发者对本次 merge-back 的明确同意后才能修改开发者分支。
+17. 最终由开发者主导 review、联调、检查和后续合并。
+18. 如有 API 变更，最终交付必须包含 Apifox sync summary，并主动询问是否需要一份可直接给 Apifox 录入的「接口清单 + 数据模型 JSON Schema」；用户也可以单独要求从需求、spec、diff 或变更说明中抽取 Apifox 录入清单。
 
 ## 轻量插件原则
 
@@ -122,31 +138,26 @@ ai-dev-protocol/
   skills/
     ai-dev-protocol/
       SKILL.md
-    ai-requirement-intake/
-      SKILL.md
-    ai-branch-workflow/
-      SKILL.md
-    ai-spec-writing/
-      SKILL.md
-      templates/
-        requirement-spec.md
-    ai-implementation-scope/
-      SKILL.md
-      templates/
-        local-plan.md
-    ai-commit-rules/
-      SKILL.md
-    ai-merge-back/
-      SKILL.md
-    ai-handoff/
-      SKILL.md
-      templates/
-        handoff-summary.md
-    ai-apifox-sync/
-      SKILL.md
-      templates/
-        apifox-sync-summary.md
-        apifox-entry-catalog.md
+      agents/openai.yaml
+      phases/
+        ai-requirement-intake/SKILL.md
+        ai-branch-workflow/SKILL.md
+        ai-spec-writing/
+          SKILL.md
+          templates/requirement-spec.md
+        ai-implementation-scope/
+          SKILL.md
+          templates/local-plan.md
+        ai-commit-rules/SKILL.md
+        ai-merge-back/SKILL.md
+        ai-handoff/
+          SKILL.md
+          templates/handoff-summary.md
+        ai-apifox-sync/
+          SKILL.md
+          templates/
+            apifox-sync-summary.md
+            apifox-entry-catalog.md
 
   adapters/
     codex/
@@ -163,6 +174,8 @@ ai-dev-protocol/
 ```
 
 ## Workflow Routing
+
+Router 先做路径分类。Quick Fix 按“确认小改动 -> 直接修改 -> 聚焦自检 -> 用户验证”执行；以下阶段只适用于 Full Development Flow：
 
 1. 需求进入：使用 `ai-requirement-intake` 判断需求是否清楚，是否是一个独立 requirement。
 2. 分支判断：使用 `ai-branch-workflow` 确认开发者分支、已有 AI 分支或阻断主干/环境分支。
@@ -217,17 +230,17 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 }
 ```
 
-因此安装的是一个 plugin，但可用的是多个 workflow skills。
+因此安装的是一个 plugin 和一个主 Router；阶段规则由 Router 从自身目录按需读取。
 
 详细说明见 `adapters/codex/install.md`。
 
-### Codex Skills 直装
+### Codex Skill 直装
 
-如果暂时不使用 plugin，也可以把 `skills/` 下的每个 skill 子目录分别安装到 `~/.codex/skills/`。这种方式同样会得到多个 skills，但没有 plugin 卡片和 marketplace 分发能力。
+如果暂时不使用 plugin，也可以只把 `skills/ai-dev-protocol/` 安装到 `~/.codex/skills/ai-dev-protocol/`。它已包含全部内部阶段规则，但没有 plugin 卡片和 marketplace 分发能力。
 
 ### Claude Code
 
-本仓库包含 `.claude-plugin/plugin.json`，可作为 Claude Code plugin 源码仓库使用。若项目暂不走 Claude plugin 安装流程，也可以将 `adapters/claude-code/CLAUDE.snippet.md` 合并到目标项目的 `CLAUDE.md`。
+本仓库包含 `.claude-plugin/plugin.json`。由于根目录 `skills/` 只有主 Router，Claude Code 也只发现这一个入口；内部阶段文件作为 Router 的支持资源读取。若项目暂不走 Claude plugin 安装流程，也可以将 `adapters/claude-code/CLAUDE.snippet.md` 合并到目标项目的 `CLAUDE.md`。
 
 ### Cursor
 
@@ -241,7 +254,7 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 
 ### 第一阶段：最小可用版本
 
-完成 Codex plugin manifest、多阶段 workflow skills、模板和 Codex/Claude Code/Cursor 适配文件。
+完成 Codex plugin manifest、单 Router 与内部阶段模块、模板和 Codex/Claude Code/Cursor 适配文件。
 
 ### 第二阶段：真实项目试点
 
@@ -258,17 +271,18 @@ Codex 读取 plugin 后，会加载 `plugin.json` 中声明的：
 ## 可持续迭代
 
 - 使用 `CHANGELOG.md` 记录版本变化。
-- 使用 `docs/iteration-guide.md` 约定反馈收集、版本号、发布检查和新增 skill 判断标准。
+- 使用 `docs/iteration-guide.md` 约定反馈收集、版本号、发布检查和新增阶段模块判断标准。
 - 每次真实项目试点后，优先修改最小相关 skill，避免把规则堆回总入口。
-- 当新增独立阶段时再创建新 skill；阶段内规则变化优先更新已有 skill。
+- 当新增独立阶段时再创建新的内部 phase 模块；阶段内规则变化优先更新已有模块。只有确实需要新的用户入口时才新增可发现 skill。
 
 ## 验收标准
 
 1. 团队成员可以通过 GitHub 拉取并使用 `ai-dev-protocol`。
-2. Codex 能以 plugin 方式读取多个 workflow skills。
-3. Claude Code 和 Cursor 能通过适配文件读取核心规则。
+2. Codex 和 Claude Code 只发现主 Router，阶段模块由 Router 按需读取。
+3. Claude Code 和 Cursor 能通过插件入口或适配文件读取核心规则。
 4. AI 能稳定做到一需求一工作单元、一 spec 一范围。
 5. 开发者分支支持多个 AI 分支并行开发，并在开发者逐次明确授权后 squash merge 回开发者分支。
 6. 单一小型团队流程完整走通 spec 文档提交、本地 plan 未追踪、实现提交、验证审查、merge-back 授权、squash merge-back 和 handoff。
 7. 最终交付包含验证结果、spec 文档状态、plan/goals 完成情况、subagent / 独立审查或替代自检结果，API 变更包含 Apifox sync summary；需要录入 Apifox 时可输出接口清单和数据模型 JSON Schema 清单。
 8. 开发者在开发者分支上主导 review、联调、检查和后续合并。
+9. 用户接受的低风险小修改可不创建 workflow 产物，并明确由用户完成最终验证。

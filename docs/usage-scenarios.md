@@ -52,8 +52,9 @@ Expected behavior:
 
 - Keep the requirement narrow.
 - Ask for missing reproduction or expected behavior only when needed.
-- Keep the branch and spec gates. If a team wants an emergency path, it should define that policy outside this plugin instead of treating small fixes as an implicit bypass.
-- Use a lightweight plan for tiny changes.
+- Classify the change before creating workflow artifacts.
+- If the user accepts a quick modification and the fix is narrow and low risk, use the Quick Fix Path: edit the authorized current branch directly, create no AI branch/spec/plan/commit/merge-back, run a focused self-check, and state that the user owns final verification.
+- If the fix affects API contracts, schemas, databases, auth/security, dependencies/build, cross-module behavior, release/versioning, or branch integration, use the Full Development Flow.
 - Avoid formatting sweeps, unrelated refactors, dependency upgrades, or adjacent cleanup.
 - Commit with a Chinese `fix:` message when asked to commit.
 

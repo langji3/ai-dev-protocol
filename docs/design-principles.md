@@ -52,12 +52,15 @@ Use this priority when rules conflict:
 4. Optional tool or Superpowers-style execution suggestions
 ```
 
-AI Dev Protocol owns the workflow gates. Optional tools and borrowed methods can improve execution, but they must not skip spec confirmation, branch checks, scope control, verification, or handoff.
+AI Dev Protocol owns routing and workflow gates. Optional tools and borrowed methods can improve execution, but they must not skip the selected path's safety conditions, verification responsibility, or handoff.
 
 ## Lightweight Product Rules
 
 - One obvious entry: users should normally trigger `ai-dev-protocol`.
-- Small phase skills: each skill owns one stage and stays concise.
+- Router ownership: only the main skill is discoverable and user-facing; phase files are internal modules selected by the router.
+- Small phase modules: each internal file owns one stage and stays concise.
+- Proportional process: user-approved low-risk small edits may use the Quick Fix Path without branches, specs, plans, commits, or merge-back; final verification remains with the user.
+- Conservative fallback: API, schema, database, auth/security, dependency/build, cross-module, release, and branch-integration changes always use the full flow; uncertainty also selects the full flow.
 - Visible gates: branch source, spec confirmation, implementation start, commit, and merge-back should be explicit; merge-back requires its own developer authorization after implementation and verification reporting.
 - Recoverable state: the plugin should inspect current branch, Git status, spec, plan, and commits before deciding the next step.
 - Minimal artifacts: committed files should be specs, code, tests, docs, and intentional templates; local plans stay ignored.
@@ -66,7 +69,7 @@ AI Dev Protocol owns the workflow gates. Optional tools and borrowed methods can
 
 ## Adding New Capabilities
 
-Add a new skill only when it is a reusable workflow phase. Prefer improving an existing phase skill for wording, gates, or checklist changes.
+Add a new internal phase module only when it is a reusable workflow phase. Prefer improving an existing phase module for wording, gates, or checklist changes. Add another discoverable skill only when users genuinely need a second independent entry point.
 
 Good candidates:
 
