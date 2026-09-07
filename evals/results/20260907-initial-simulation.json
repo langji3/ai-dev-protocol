@@ -1,0 +1,176 @@
+{
+  "mode": "independent-simulation",
+  "tool": "Codex read-only subagents",
+  "toolVersion": "gpt-5.6-luna / medium",
+  "pluginVersion": "2.2.0",
+  "date": "2026-09-07",
+  "recording": "Action lists and evidence normalized from independent agent replies; no actual Git/Apifox operations performed by these scenarios.",
+  "cases": [
+    {
+      "id": "discussion",
+      "route": "discussion",
+      "actions": [
+        "answer"
+      ],
+      "evidence": "用户要求先审视和给方案、确认后实施；main 干净，无写入授权。",
+      "agent": "forward_routes_a"
+    },
+    {
+      "id": "quick_fix",
+      "route": "quick_fix",
+      "actions": [
+        "edit-file",
+        "verify",
+        "answer"
+      ],
+      "evidence": "README 单处错别字、developer/lin 可直接修改，用户负责最终验证。",
+      "agent": "forward_routes_a"
+    },
+    {
+      "id": "api_exclusion",
+      "route": "full_development_flow",
+      "actions": [
+        "create-ai-branch",
+        "write-spec",
+        "commit-spec",
+        "request-spec-approval",
+        "block-write",
+        "block-dependent-writes"
+      ],
+      "evidence": "total integer 变为 string 属于 API 合约变化，排除 Quick Fix；先 spec。",
+      "agent": "forward_routes_a"
+    },
+    {
+      "id": "feature_spec_gate",
+      "route": "Full Development Flow",
+      "actions": [
+        "clarify"
+      ],
+      "evidence": "仅给出状态筛选目标，缺少实现影响面与验收边界，先澄清再写 spec，不直接编辑。",
+      "agent": "forward_routes_b"
+    },
+    {
+      "id": "branch_only",
+      "route": "Full Development Flow",
+      "actions": [
+        "create-ai-branch",
+        "clarify"
+      ],
+      "evidence": "个人分支只确认 main 的来源角色，尚无需求和 spec；继续澄清。",
+      "agent": "forward_routes_b"
+    },
+    {
+      "id": "approved_proposal",
+      "route": "Full Development Flow",
+      "actions": [
+        "reuse-approved-scope",
+        "create-ai-branch",
+        "write-spec",
+        "commit-spec",
+        "write-plan",
+        "verify",
+        "commit"
+      ],
+      "evidence": "确认明确覆盖前后端筛选、保存 spec、实现验证；不重复确认相同内容，不合回。",
+      "agent": "forward_routes_b"
+    },
+    {
+      "id": "merge_ok",
+      "route": "merge-back",
+      "actions": [
+        "reverify-integration",
+        "merge",
+        "verify"
+      ],
+      "evidence": "OK 指向将 A squash 回 B 的具体方案；heads 未变、工作目录干净空闲、组合树已验证。",
+      "agent": "forward_recovery"
+    },
+    {
+      "id": "merge_ambiguous",
+      "route": "merge-back",
+      "actions": [
+        "clarify"
+      ],
+      "evidence": "继续可能指补测试或准备合回，没有明确授权对象。",
+      "agent": "forward_recovery"
+    },
+    {
+      "id": "resume_changed_spec",
+      "route": "recovery",
+      "actions": [
+        "read-recovery-evidence",
+        "block-dependent-writes",
+        "request-spec-approval"
+      ],
+      "evidence": "S1 只增加筛选，S2 增加移除权限；plan 勾选不能授权实质扩展。",
+      "agent": "forward_recovery"
+    },
+    {
+      "id": "target_advanced",
+      "route": "merge-back",
+      "actions": [
+        "read-recovery-evidence",
+        "reverify-integration",
+        "request-merge-approval"
+      ],
+      "evidence": "来源 B、目标已前进到 C，只有 A 的验证；应隔离验证组合结果再提出合回。",
+      "agent": "forward_recovery"
+    },
+    {
+      "id": "apifox_summary",
+      "route": "Apifox Standalone / Sync Summary",
+      "actions": [
+        "answer"
+      ],
+      "evidence": "首次演练正确选择短摘要路径，但说明中把响应不变误述为响应变化。",
+      "agent": "forward_apifox",
+      "reviewIssues": [
+        "事实错误：原始输入明确响应不变，演练误述响应发生变化。"
+      ]
+    },
+    {
+      "id": "apifox_catalog",
+      "route": "Apifox Standalone / Entry Catalog",
+      "actions": [
+        "load-catalog-template",
+        "trace-response-models",
+        "answer"
+      ],
+      "evidence": "遍历完整响应图 Envelope -> Order -> Item，Query 内联，无独立请求模型。",
+      "agent": "forward_apifox"
+    },
+    {
+      "id": "apifox_missing_module",
+      "route": "Apifox Standalone / CLI Sync Plan",
+      "actions": [
+        "read-cli-capabilities",
+        "read-apifox",
+        "block-write",
+        "block-dependent-writes"
+      ],
+      "evidence": "CLI 可用但 endpointCreate/folderList 没有模块归属证据，不猜测 folderId 等于 moduleId。",
+      "agent": "forward_apifox"
+    },
+    {
+      "id": "apifox_partial_timeout",
+      "route": "Apifox Standalone / CLI Sync Recovery",
+      "actions": [
+        "read-recovery-evidence",
+        "block-dependent-writes"
+      ],
+      "evidence": "Schema s1 已验证保留；GET /orders 超时为 unknown，需要按稳定键回查，不能重复创建。",
+      "agent": "forward_apifox"
+    },
+    {
+      "id": "apifox_remote_changed",
+      "route": "Apifox Standalone / CLI Sync Recovery",
+      "actions": [
+        "read-recovery-evidence",
+        "request-apifox-approval",
+        "block-write"
+      ],
+      "evidence": "freshRead status integer 与已批准 string baseline 不同，重新比较并确认变化部分。",
+      "agent": "forward_apifox"
+    }
+  ]
+}

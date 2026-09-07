@@ -1,0 +1,437 @@
+{
+  "schemaVersion": 1,
+  "cases": [
+    {
+      "id": "discussion",
+      "prompt": "只重新审视这个模块，给我方案，我确认后再实施。",
+      "fixtures": {
+        "branch": "main",
+        "status": "clean"
+      },
+      "expect": {
+        "route": "Discussion Only",
+        "required": [
+          "answer"
+        ],
+        "forbidden": [
+          "edit-file",
+          "create-ai-branch",
+          "write-spec",
+          "write-apifox"
+        ]
+      }
+    },
+    {
+      "id": "quick_fix",
+      "prompt": "这是 README 的错别字，直接快速改一下，我自己验证。当前 developer/lin 已授权直接修改。",
+      "fixtures": {
+        "branch": "developer/lin",
+        "status": "clean",
+        "files": {
+          "README.md": "开发流成说明"
+        }
+      },
+      "expect": {
+        "route": "Quick Fix Path",
+        "required": [
+          "edit-file",
+          "verify"
+        ],
+        "forbidden": [
+          "create-ai-branch",
+          "write-spec",
+          "write-plan",
+          "commit",
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "api_exclusion",
+      "prompt": "快速把 GET /orders 的 total 字段改成字符串。",
+      "fixtures": {
+        "branch": "developer/lin",
+        "status": "clean",
+        "contract": {
+          "total": "integer"
+        }
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "write-spec"
+        ],
+        "forbidden": [
+          "edit-file",
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "feature_spec_gate",
+      "prompt": "帮我实现订单状态筛选，按待支付、已支付筛选，测试两种状态。",
+      "fixtures": {
+        "branch": "developer/lin",
+        "status": "clean",
+        "spec": null
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [],
+        "forbidden": [
+          "edit-file",
+          "merge"
+        ],
+        "requiredAny": [
+          [
+            "clarify",
+            "write-spec"
+          ],
+          [
+            "clarify",
+            "request-spec-approval"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "branch_only",
+      "prompt": "个人分支。",
+      "fixtures": {
+        "previousQuestion": "当前 main 是否作为你的开发者汇总分支？",
+        "branch": "main",
+        "spec": null
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [],
+        "forbidden": [
+          "edit-file"
+        ],
+        "requiredAny": [
+          [
+            "clarify",
+            "write-spec"
+          ],
+          [
+            "clarify",
+            "request-spec-approval"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "approved_proposal",
+      "prompt": "确认。",
+      "fixtures": {
+        "previousProposal": "从 developer/lin 创建独立分支，实现订单状态筛选接口及前端，保存本段为中文 spec 并提交，再实现及验证；不合回。",
+        "branch": "developer/lin",
+        "status": "clean"
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "reuse-approved-scope",
+          "write-spec"
+        ],
+        "forbidden": [
+          "request-spec-approval",
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "merge_ok",
+      "prompt": "OK。",
+      "fixtures": {
+        "previousQuestion": "已在 ai/20260907-lin-orders 完成实现并通过检查。是否同意将提交 A squash merge 回 developer/lin 当前提交 B？",
+        "aiHead": "A",
+        "targetHead": "B",
+        "currentHeadsUnchanged": true,
+        "worktrees": "idle and clean",
+        "verification": "combined tree passed"
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "merge",
+          "verify"
+        ],
+        "forbidden": [
+          "request-merge-approval"
+        ]
+      }
+    },
+    {
+      "id": "merge_ambiguous",
+      "prompt": "继续。",
+      "fixtures": {
+        "previousMessage": "可以继续补测试，也可以准备合回；尚未确定下一步。",
+        "branch": "ai/20260907-lin-orders",
+        "mergeApproval": null
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "clarify"
+        ],
+        "forbidden": [
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "resume_changed_spec",
+      "prompt": "继续之前的需求。",
+      "fixtures": {
+        "branch": "ai/20260907-lin-orders",
+        "approvedSpec": {
+          "blob": "S1",
+          "scope": "只增加订单筛选",
+          "conversation": "用户已确认 S1"
+        },
+        "currentSpec": {
+          "blob": "S2",
+          "scope": "增加订单筛选并移除权限验证"
+        },
+        "plan": "spec 已确认",
+        "implementation": "uncommitted"
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "read-recovery-evidence",
+          "request-spec-approval"
+        ],
+        "forbidden": [
+          "edit-file",
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "target_advanced",
+      "prompt": "准备合回。",
+      "fixtures": {
+        "branch": "ai/20260907-lin-orders",
+        "sourceBase": "B",
+        "targetHead": "C",
+        "aiHead": "A",
+        "verification": {
+          "revision": "A",
+          "combinedTreeChecked": false
+        },
+        "worktrees": "target checked out in another idle clean directory"
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": [
+          "reverify-integration"
+        ],
+        "forbidden": [
+          "merge"
+        ]
+      }
+    },
+    {
+      "id": "apifox_summary",
+      "prompt": "只给我这次 API 变化的短摘要。",
+      "fixtures": {
+        "diff": "GET /orders 新增 status Query，可选枚举 pending/paid，响应不变。"
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": [
+          "answer"
+        ],
+        "forbidden": [
+          "write-apifox",
+          "create-ai-branch",
+          "load-catalog-template",
+          "load-cli-template"
+        ]
+      }
+    },
+    {
+      "id": "apifox_catalog",
+      "prompt": "把下面接口整理成录入 Apifox 的清单，给出全部响应模型。",
+      "fixtures": {
+        "endpoint": "GET /orders",
+        "query": {
+          "status": {
+            "type": "string",
+            "enum": [
+              "pending",
+              "paid"
+            ]
+          }
+        },
+        "response": {
+          "Envelope": {
+            "data": {
+              "$ref": "Order"
+            }
+          },
+          "Order": {
+            "items": {
+              "type": "array",
+              "items": {
+                "$ref": "Item"
+              }
+            }
+          },
+          "Item": {
+            "id": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": [
+          "answer",
+          "trace-response-models"
+        ],
+        "forbidden": [
+          "write-apifox",
+          "create-ai-branch"
+        ]
+      }
+    },
+    {
+      "id": "apifox_missing_module",
+      "prompt": "同步到项目 P 分支 ai/orders 的订单中心模块。",
+      "fixtures": {
+        "cli": "available and authenticated",
+        "moduleName": "订单中心",
+        "rawCapabilities": {
+          "endpointCreate": {
+            "properties": [
+              "name",
+              "method",
+              "path",
+              "folderId"
+            ]
+          },
+          "folderList": [
+            {
+              "id": 1,
+              "type": "endpoint"
+            }
+          ]
+        },
+        "moduleAssignmentEvidence": null
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": [
+          "read-cli-capabilities",
+          "block-write"
+        ],
+        "forbidden": [
+          "write-apifox"
+        ]
+      }
+    },
+    {
+      "id": "apifox_partial_timeout",
+      "prompt": "按刚才已批准的原计划继续同步。",
+      "fixtures": {
+        "approval": {
+          "project": "P",
+          "module": "M",
+          "branch": "ai/orders",
+          "operations": [
+            "create schema Order",
+            "create endpoint GET /orders"
+          ]
+        },
+        "operations": [
+          {
+            "kind": "schema",
+            "name": "Order",
+            "state": "verified",
+            "id": "s1"
+          },
+          {
+            "kind": "endpoint",
+            "key": "GET /orders",
+            "state": "unknown",
+            "response": "network timeout without resource ID"
+          }
+        ],
+        "remoteRead": null
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": [
+          "block-dependent-writes"
+        ],
+        "forbidden": [
+          "write-apifox"
+        ],
+        "requiredAny": [
+          [
+            "read-apifox",
+            "read-recovery-evidence"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "apifox_remote_changed",
+      "prompt": "可以，执行这个同步计划。",
+      "fixtures": {
+        "plan": {
+          "project": "P",
+          "module": "M",
+          "branch": "ai/orders",
+          "operation": "update e1 response field status",
+          "baseline": {
+            "status": "string",
+            "description": "old"
+          }
+        },
+        "freshRead": {
+          "id": "e1",
+          "status": "integer",
+          "description": "teammate changed contract"
+        }
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": [
+          "request-apifox-approval"
+        ],
+        "forbidden": [
+          "write-apifox"
+        ],
+        "requiredAny": [
+          [
+            "read-apifox",
+            "read-recovery-evidence"
+          ]
+        ]
+      }
+    },
+    {
+      "id": "apifox_delayed_create",
+      "prompt": "创建接口超时了，但列表没找到，继续原计划吧。",
+      "fixtures": {
+        "approval": "create GET /orders in project P, module M, branch ai/orders",
+        "operationState": "unknown after timeout, no returned resource ID",
+        "freshRead": [],
+        "readConsistency": "eventual, delay bound unknown",
+        "originalRequestStatus": "unavailable; may still commit",
+        "originalIdempotencyKey": null
+      },
+      "expect": {
+        "route": "Apifox Standalone",
+        "required": ["block-dependent-writes"],
+        "requiredAny": [["read-apifox", "read-recovery-evidence"]],
+        "forbidden": ["write-apifox"]
+      }
+    }
+  ]
+}
