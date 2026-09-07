@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import re
+import stat
 import sys
 
 NAME = "ai-dev-protocol"
@@ -29,44 +30,53 @@ def digest(path):
     return hashlib.sha256(data).hexdigest()
 
 
+def checked_path(path, kind="plugin root"):
+    """Reject actual links before canonicalizing harmless Windows 8.3 aliases."""
+    path = Path(path).absolute()
+    for component in (path, *path.parents):
+        try:
+            info = component.lstat()
+        except FileNotFoundError:
+            continue
+        if (stat.S_ISLNK(info.st_mode)
+                or getattr(info, "st_file_attributes", 0) & getattr(stat, "FILE_ATTRIBUTE_REPARSE_POINT", 0)):
+            raise ValueError(f"Linked {kind} is not supported: {component}")
+    return path.resolve()
+
+
 def release_files(root):
-    root = Path(root).absolute()
-    if root.is_symlink() or root.resolve() != root:
-        raise ValueError("Linked plugin root is not supported")
+    root = checked_path(root)
     selected = []
     for directory in RELEASE_DIRS:
         base = root / directory
-        if base.is_symlink() or base.resolve() != base.absolute():
-            raise ValueError(f"Linked release directory: {directory}")
+        checked_path(base, "release directory")
         if not base.is_dir():
             raise ValueError(f"Missing release directory: {directory}")
         for path in base.rglob("*"):
             rel = path.relative_to(root)
             if rel.parts[:2] == ("docs", "plans"):
                 continue
-            if path.is_symlink() or path.resolve() != path.absolute():
-                raise ValueError(f"Symlinks are not release assets: {rel}")
+            checked_path(path, "release asset")
             if path.is_file():
                 if any(x in {".git", "__pycache__", ".idea"} for x in rel.parts):
                     raise ValueError(f"Unexpected release artifact: {rel}")
                 selected.append(path)
     for rel in RELEASE_FILES:
         path = root / rel
-        if not path.is_file() or path.is_symlink() or path.resolve() != path.absolute():
+        checked_path(path, "release asset")
+        if not path.is_file():
             raise ValueError(f"Missing or unsafe release asset: {rel}")
         selected.append(path)
     return sorted(selected, key=lambda p: p.relative_to(root).as_posix())
 
 
 def inventory(root):
-    root = Path(root).absolute()
+    root = checked_path(root)
     return {p.relative_to(root).as_posix(): digest(p) for p in release_files(root)}
 
 
 def validate(root):
-    root = Path(root).absolute()
-    if root.resolve() != root or root.is_symlink():
-        raise ValueError("Linked plugin root is not supported")
+    root = checked_path(root)
     release = release_files(root)
     errors = []
     manifests = []

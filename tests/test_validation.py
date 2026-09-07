@@ -9,6 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 from validate_plugin import inventory, release_files, validate
 from build_bundle import build
+from path_fixtures import short_path, junction
 
 
 class ValidationTests(unittest.TestCase):
@@ -31,7 +32,7 @@ class ValidationTests(unittest.TestCase):
     def test_version_mismatch_is_rejected(self):
         path = self.root / ".claude-plugin/plugin.json"
         import json
-        manifest = json.loads(path.read_text())
+        manifest = json.loads(path.read_text(encoding="utf-8"))
         manifest["version"] = "99.0.0"
         path.write_text(json.dumps(manifest), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "versions differ"):
@@ -39,7 +40,9 @@ class ValidationTests(unittest.TestCase):
 
     def test_stale_readme_version_is_rejected(self):
         path = self.root / "README.md"
-        path.write_text(path.read_text(encoding="utf-8").replace("`2.2.0`", "`0.0.0`"), encoding="utf-8")
+        import json
+        version = json.loads((self.root / ".codex-plugin/plugin.json").read_text(encoding="utf-8"))["version"]
+        path.write_text(path.read_text(encoding="utf-8").replace(f"`{version}`", "`0.0.0`"), encoding="utf-8")
         with self.assertRaisesRegex(ValueError, "README"):
             validate(self.root)
 
@@ -87,6 +90,26 @@ class ValidationTests(unittest.TestCase):
             stream.write("\n[missing](adapters/no-such-tool/install.md)\n")
         with self.assertRaisesRegex(ValueError, "unresolved"):
             validate(self.root)
+
+    def test_windows_short_path_validates_and_builds(self):
+        alias = short_path(self, self.root)
+        self.assertEqual(inventory(self.root), inventory(alias))
+        self.assertEqual(8, validate(alias)["phaseCount"])
+        output = build(alias, alias.parent / "short-path-bundle")
+        self.assertEqual(inventory(self.root), inventory(output / "vendor/ai-dev-protocol"))
+
+    def test_junction_plugin_root_is_rejected(self):
+        alias = junction(self, Path(self.temp.name) / "linked-plugin", self.root)
+        with self.assertRaisesRegex(ValueError, "Linked plugin root"):
+            validate(alias)
+
+    def test_junction_ancestor_is_rejected(self):
+        container = Path(self.temp.name) / "container"
+        container.mkdir()
+        self.root.rename(container / "plugin")
+        alias = junction(self, Path(self.temp.name) / "linked-parent", container)
+        with self.assertRaisesRegex(ValueError, "Linked plugin root"):
+            validate(alias / "plugin")
 
     def test_symlinked_release_directory_is_rejected(self):
         directory = self.root / "docs"

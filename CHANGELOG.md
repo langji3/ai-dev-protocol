@@ -8,6 +8,13 @@ All notable changes to AI Dev Protocol are documented here.
 - `MINOR`：新增 workflow skill、模板或重要规则，但保持已有使用方式兼容。
 - `PATCH`：文案修正、说明补充、模板微调或维护性更新。
 
+## [2.2.1] - 2026-09-07
+
+### Fixed
+
+- Accepted legitimate Windows 8.3 path aliases in package validation and bundle generation while still rejecting symbolic links, junctions, and linked ancestors.
+- Added real Windows short-path and junction regression fixtures for the CI path checks.
+
 ## [2.2.0] - 2026-09-07
 
 ### Added

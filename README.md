@@ -1,6 +1,6 @@
 # AI Dev Protocol
 
-面向小型团队的 AI 辅助开发流程插件。当前版本：`2.2.0`。
+面向小型团队的 AI 辅助开发流程插件。当前版本：`2.2.1`。
 
 独立维护规则，通过 Langji AI Marketplace 分发可追溯快照。Codex / Claude Code 使用一个公开 Router；Cursor 和通用工具通过完整项目资源包接入。
 

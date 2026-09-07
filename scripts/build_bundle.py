@@ -6,11 +6,11 @@ import shutil
 import sys
 
 sys.dont_write_bytecode = True
-from validate_plugin import NAME, release_files, validate
+from validate_plugin import NAME, checked_path, release_files, validate
 
 
 def build(root, output):
-    root, output = Path(root).absolute(), Path(output).resolve()
+    root, output = checked_path(root), checked_path(output, "bundle output")
     metadata = validate(root)
     if output.exists():
         raise ValueError(f"Output already exists; choose a fresh directory: {output}")
