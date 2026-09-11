@@ -432,6 +432,72 @@
         "requiredAny": [["read-apifox", "read-recovery-evidence"]],
         "forbidden": ["write-apifox"]
       }
+    },
+    {
+      "id": "resume_assigned_conversation",
+      "prompt": "你是已分配的订单筛选实现任务，加载 ai-dev-protocol 后继续。",
+      "fixtures": {
+        "assignment": "实现订单筛选，完成后交付；不创建其他任务，不合回。",
+        "git": {"branch": "ai/orders", "source": "developer/lin", "worktree": "/project/orders", "HEAD": "spec-commit", "status": "clean"},
+        "spec": {"path": "docs/specs/orders.md", "blob": "reviewed", "contents": "筛选待支付和已支付，测试两种状态，不改接口。", "committed": true},
+        "approvalEvidence": {"accessible": true, "proposal": "从 developer/lin 创建 ai/orders，按这份 spec 实现并验证两种状态。", "userReply": "确认这份 spec，开始实现。"},
+        "plan": "missing; docs/plans is ignored"
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": ["verify-existing-evidence", "resume-existing-work"],
+        "forbidden": ["create-task", "create-ai-branch", "repeat-spec-approval", "merge"]
+      }
+    },
+    {
+      "id": "parallel_discussion_assignment",
+      "prompt": "仍按之前的安排，在这里讨论需求。A 的权限我晚点决定，先帮我分析 B 的分页方案，只讨论，不创建文件或任务。",
+      "fixtures": {
+        "conversationInstruction": "本对话负责需求讨论，执行在其他对话安排。",
+        "branch": "ai/A-spec-preparation",
+        "A": "permission decision pending",
+        "B": {"goal": "选择列表分页方案", "dependsOnA": false}
+      },
+      "expect": {
+        "route": "Discussion Only",
+        "required": ["answer-B", "preserve-assignment"],
+        "forbidden": ["wait-for-A-before-B", "edit-file", "create-task", "switch-to-implementation"]
+      }
+    },
+    {
+      "id": "confirmed_delta_reuse",
+      "prompt": "确认刚才列出的具体变化：筛选增加退款状态，并补退款状态测试。按这个变化更新 spec 后继续，其他范围不变。",
+      "fixtures": {
+        "assignment": "existing implementation task",
+        "git": {"branch": "ai/orders", "worktree": "/project/orders", "status": "clean"},
+        "spec": {"path": "docs/specs/orders.md", "blob": "v1", "contents": "筛选待支付和已支付，测试两种状态。", "committed": true},
+        "approvalEvidence": {"accessible": true, "priorProposal": "新增退款筛选及其测试，其余目标、接口和范围不变。", "currentUserReply": "确认刚才列出的具体变化：筛选增加退款状态，并补退款状态测试。按这个变化更新 spec 后继续，其他范围不变。"}
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": ["reuse-delta-approval", "update-and-commit-spec", "verify-approved-content"],
+        "forbidden": ["repeat-delta-approval", "implement-before-spec-update", "create-task"]
+      }
+    },
+    {
+      "id": "requested_report_unavailable",
+      "prompt": "做完后把交付回报到主对话，通知我验收。",
+      "fixtures": {
+        "assignment": "feature implementation",
+        "currentTaskId": "feature-task",
+        "recipientTaskId": null,
+        "git": {"branch": "ai/orders", "HEAD": "implementation", "status": "clean"},
+        "spec": {"blob": "reviewed", "acceptance": "met"},
+        "verification": {"revision": "implementation", "result": "tests and independent review passed"},
+        "host": "no task messaging or notification tools",
+        "mergeTarget": null,
+        "mergeApproval": null
+      },
+      "expect": {
+        "route": "Full Development Flow",
+        "required": ["provide-transferable-handoff", "report-delivery-incomplete"],
+        "forbidden": ["invent-recipient", "use-current-task-as-recipient", "invent-merge-target", "request-unrelated-merge-approval", "claim-notified", "create-task", "merge"]
+      }
     }
   ]
 }

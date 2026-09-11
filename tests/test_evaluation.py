@@ -8,7 +8,7 @@ from evaluate import cases, evaluate
 class EvaluationTests(unittest.TestCase):
     def record(self, case):
         return {"mode": "independent-simulation", "tool": "test-fixture", "toolVersion": "1",
-                "pluginVersion": "2.2.0", "date": "2026-09-07", "cases": [case]}
+                "pluginVersion": "2.2.2", "date": "2026-09-10", "cases": [case]}
 
     def test_forbidden_real_action_fails_even_with_correct_route(self):
         case = {"id": "discussion", "route": "Discussion Only",
@@ -31,7 +31,7 @@ class EvaluationTests(unittest.TestCase):
         self.assertFalse(evaluate(record)["passed"])
 
     def test_unique_cases(self):
-        self.assertEqual(16, len({c["id"] for c in cases()}))
+        self.assertEqual(20, len({c["id"] for c in cases()}))
 
 
 if __name__ == "__main__":

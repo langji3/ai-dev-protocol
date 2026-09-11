@@ -1,6 +1,6 @@
 # 行为验证
 
-scenarios.json 包含 16 个原始场景和独立评分条件（15 个基础场景，加上审查发现的超时后空列表回归）。评估者只接收 scripts/evaluate.py prompt <id> 输出、当前 Router 路径及必要原始材料，不接收 expect 或已知问题。
+scenarios.json 保留 16 个原始场景，另有 4 个跨对话兼容性场景，共 20 个。评估者只接收 scripts/evaluate.py prompt <id> 输出、当前 Router 路径及必要原始材料，不接收 expect 或已知问题。
 
 评估关注路由和动作/状态，不匹配最终回复措辞。actions 使用诸如 edit-file、write-spec、request-spec-approval、merge、read-apifox、write-apifox 的操作标识；evidence 记录依据的原始状态或实际工具结果。
 
